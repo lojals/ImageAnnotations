@@ -13,6 +13,12 @@ class ViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     }
+    
+    override func loadView() {
+        let imageAnnotationsView = ImageAnnotationsView()
+        imageAnnotationsView.translatesAutoresizingMaskIntoConstraints = false
+        self.view = imageAnnotationsView
+    }
 
     override var representedObject: Any? {
         didSet {
@@ -21,9 +27,16 @@ class ViewController: NSViewController {
     }
     
     @IBAction func openDocument(_ sender: Any?) {
-        let myFileDialog = NSOpenPanel()
-        myFileDialog.allowsMultipleSelection = true
-        myFileDialog.runModal()
+        let dialog = NSOpenPanel.make()
+        dialog.delegate = self
+        dialog.runModal()
     }
 
+}
+
+
+extension ViewController: NSOpenSavePanelDelegate {
+    func panelSelectionDidChange(_ sender: Any?) {
+        print((sender as? NSOpenPanel)?.urls)
+    }
 }

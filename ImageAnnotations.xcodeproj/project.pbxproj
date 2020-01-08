@@ -11,6 +11,8 @@
 		7A4BBDF423C3A3FE0037C111 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4BBDF323C3A3FE0037C111 /* ViewController.swift */; };
 		7A4BBDF623C3A4010037C111 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7A4BBDF523C3A4010037C111 /* Assets.xcassets */; };
 		7A4BBDF923C3A4010037C111 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7A4BBDF723C3A4010037C111 /* Main.storyboard */; };
+		7A4BBE0323C3E3DB0037C111 /* NSOpenPanel+Custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4BBE0223C3E3DB0037C111 /* NSOpenPanel+Custom.swift */; };
+		7A4BBE0623C545650037C111 /* ImageAnnotationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4BBE0523C545650037C111 /* ImageAnnotationsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,6 +23,8 @@
 		7A4BBDF823C3A4010037C111 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		7A4BBDFA23C3A4010037C111 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7A4BBDFB23C3A4010037C111 /* ImageAnnotations.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ImageAnnotations.entitlements; sourceTree = "<group>"; };
+		7A4BBE0223C3E3DB0037C111 /* NSOpenPanel+Custom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSOpenPanel+Custom.swift"; sourceTree = "<group>"; };
+		7A4BBE0523C545650037C111 /* ImageAnnotationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAnnotationsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,12 +57,30 @@
 		7A4BBDF023C3A3FE0037C111 /* ImageAnnotations */ = {
 			isa = PBXGroup;
 			children = (
+				7A4BBE0123C3E2600037C111 /* Extensions */,
 				7A4BBDF123C3A3FE0037C111 /* AppDelegate.swift */,
 				7A4BBDF323C3A3FE0037C111 /* ViewController.swift */,
+				7A4BBE0423C545460037C111 /* ImageAnnotations */,
 				7A4BBDF523C3A4010037C111 /* Assets.xcassets */,
 				7A4BBDF723C3A4010037C111 /* Main.storyboard */,
 				7A4BBDFA23C3A4010037C111 /* Info.plist */,
 				7A4BBDFB23C3A4010037C111 /* ImageAnnotations.entitlements */,
+			);
+			path = ImageAnnotations;
+			sourceTree = "<group>";
+		};
+		7A4BBE0123C3E2600037C111 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				7A4BBE0223C3E3DB0037C111 /* NSOpenPanel+Custom.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		7A4BBE0423C545460037C111 /* ImageAnnotations */ = {
+			isa = PBXGroup;
+			children = (
+				7A4BBE0523C545650037C111 /* ImageAnnotationsView.swift */,
 			);
 			path = ImageAnnotations;
 			sourceTree = "<group>";
@@ -133,6 +155,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7A4BBE0323C3E3DB0037C111 /* NSOpenPanel+Custom.swift in Sources */,
+				7A4BBE0623C545650037C111 /* ImageAnnotationsView.swift in Sources */,
 				7A4BBDF423C3A3FE0037C111 /* ViewController.swift in Sources */,
 				7A4BBDF223C3A3FE0037C111 /* AppDelegate.swift in Sources */,
 			);
