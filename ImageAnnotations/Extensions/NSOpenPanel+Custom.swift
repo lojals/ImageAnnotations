@@ -13,7 +13,7 @@ extension NSOpenPanel {
         let panel = NSOpenPanel()
         panel.message = "Select images"
         panel.canChooseDirectories = false
-        panel.allowedFileTypes = ["jpg", "jpeg", "png", "tiff", "gif"]
+        panel.allowedFileTypes = ["jpg", "jpeg", "png", "tiff"]
         panel.showsResizeIndicator = true
         panel.showsHiddenFiles = false
         panel.canCreateDirectories = true

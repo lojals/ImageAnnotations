@@ -24,6 +24,8 @@ class ViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         imageAnnotationsView.viewModel = self
+        
+        imageAnnotationsView.image = NSImage(named: "hit7.jpg")
     }
     
     override func loadView() {
@@ -60,10 +62,13 @@ extension ViewController: ImageAnnotationsViewViewModel {
     }
     
     func tableView(_ tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
-        let image = NSImage(byReferencingFile: urls[row].lastPathComponent)
-        imageAnnotationsView.image = image
-        
-        
+        do {
+            let data = try Data(contentsOf: urls[row])
+            let image = NSImage(data: data)
+            imageAnnotationsView.image = image
+        } catch {
+            
+        }
         return true
     }
     
