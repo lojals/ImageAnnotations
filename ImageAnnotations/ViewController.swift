@@ -10,20 +10,26 @@ import Cocoa
 
 class ViewController: NSViewController {
 
+    var imageAnnotationsView: ImageAnnotationsView {
+        view as! ImageAnnotationsView
+    }
+    
+    private var urls: [URL] = [] {
+        didSet {
+            print(urls)
+            imageAnnotationsView.imagesListView.reloadData()
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        imageAnnotationsView.viewModel = self
     }
     
     override func loadView() {
         let imageAnnotationsView = ImageAnnotationsView()
         imageAnnotationsView.translatesAutoresizingMaskIntoConstraints = false
         self.view = imageAnnotationsView
-    }
-
-    override var representedObject: Any? {
-        didSet {
-        // Update the view, if already loaded.
-        }
     }
     
     @IBAction func openDocument(_ sender: Any?) {
@@ -36,7 +42,29 @@ class ViewController: NSViewController {
 
 
 extension ViewController: NSOpenSavePanelDelegate {
-    func panelSelectionDidChange(_ sender: Any?) {
-        print((sender as? NSOpenPanel)?.urls)
+    
+    func panel(_ sender: Any, validate url: URL) throws {
+        urls = (sender as? NSOpenPanel)?.urls ?? []
     }
+    
+}
+
+extension ViewController: ImageAnnotationsViewViewModel {
+    
+    func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
+        return NSCell(textCell: urls[row].lastPathComponent)
+    }
+    
+    func numberOfRows(in tableView: NSTableView) -> Int {
+        return urls.count
+    }
+    
+    func tableView(_ tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
+        let image = NSImage(byReferencingFile: urls[row].lastPathComponent)
+        imageAnnotationsView.image = image
+        
+        
+        return true
+    }
+    
 }
