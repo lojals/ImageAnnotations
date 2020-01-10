@@ -42,7 +42,6 @@ class ViewController: NSViewController {
 
 }
 
-
 extension ViewController: NSOpenSavePanelDelegate {
     
     func panel(_ sender: Any, validate url: URL) throws {

@@ -13,6 +13,8 @@
 		7A4BBDF923C3A4010037C111 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7A4BBDF723C3A4010037C111 /* Main.storyboard */; };
 		7A4BBE0323C3E3DB0037C111 /* NSOpenPanel+Custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4BBE0223C3E3DB0037C111 /* NSOpenPanel+Custom.swift */; };
 		7A4BBE0623C545650037C111 /* ImageAnnotationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4BBE0523C545650037C111 /* ImageAnnotationsView.swift */; };
+		7AE1AB1223C799F10088B08F /* ImageDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AE1AB1123C799F10088B08F /* ImageDetailView.swift */; };
+		7AE1AB1423C8FD5F0088B08F /* AnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AE1AB1323C8FD5F0088B08F /* AnnotationView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +27,8 @@
 		7A4BBDFB23C3A4010037C111 /* ImageAnnotations.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ImageAnnotations.entitlements; sourceTree = "<group>"; };
 		7A4BBE0223C3E3DB0037C111 /* NSOpenPanel+Custom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSOpenPanel+Custom.swift"; sourceTree = "<group>"; };
 		7A4BBE0523C545650037C111 /* ImageAnnotationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAnnotationsView.swift; sourceTree = "<group>"; };
+		7AE1AB1123C799F10088B08F /* ImageDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDetailView.swift; sourceTree = "<group>"; };
+		7AE1AB1323C8FD5F0088B08F /* AnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotationView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +85,8 @@
 			isa = PBXGroup;
 			children = (
 				7A4BBE0523C545650037C111 /* ImageAnnotationsView.swift */,
+				7AE1AB1123C799F10088B08F /* ImageDetailView.swift */,
+				7AE1AB1323C8FD5F0088B08F /* AnnotationView.swift */,
 			);
 			path = ImageAnnotations;
 			sourceTree = "<group>";
@@ -156,9 +162,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				7A4BBE0323C3E3DB0037C111 /* NSOpenPanel+Custom.swift in Sources */,
+				7AE1AB1423C8FD5F0088B08F /* AnnotationView.swift in Sources */,
 				7A4BBE0623C545650037C111 /* ImageAnnotationsView.swift in Sources */,
 				7A4BBDF423C3A3FE0037C111 /* ViewController.swift in Sources */,
 				7A4BBDF223C3A3FE0037C111 /* AppDelegate.swift in Sources */,
+				7AE1AB1223C799F10088B08F /* ImageDetailView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

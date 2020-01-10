@@ -8,9 +8,7 @@
 
 import Cocoa
 
-protocol ImageAnnotationsViewViewModel: NSTableViewDataSource, NSTableViewDelegate {
-    
-}
+protocol ImageAnnotationsViewViewModel: NSTableViewDataSource, NSTableViewDelegate {}
 
 final class ImageAnnotationsView: NSView {
     
@@ -20,6 +18,10 @@ final class ImageAnnotationsView: NSView {
             imagesListView.delegate = viewModel
         }
     }
+    
+    lazy var scrollView: NSScrollView = NSScrollView()
+    
+    lazy var imageContainer: NSView = .init()
     
     lazy var imagesListView: NSTableView = {
         let table = NSTableView(frame: .zero)
@@ -39,10 +41,10 @@ final class ImageAnnotationsView: NSView {
         }
     }
     
-    private lazy var imageDetailView: NSImageView = .init()
+    private lazy var imageDetailView: ImageDetailView = .init()
     
     private lazy var containerView: NSStackView = {
-        let containerView = NSStackView(views: [self.imagesListView, self.imageDetailView])
+        let containerView = NSStackView(views: [self.scrollView, self.imageContainer])
         containerView.translatesAutoresizingMaskIntoConstraints = false
         containerView.alignment = .top
         containerView.distribution = .fill
@@ -55,18 +57,27 @@ final class ImageAnnotationsView: NSView {
     convenience init() {
         self.init(frame: .zero)
         
+        scrollView.addSubview(imagesListView)
+        
+        imagesListView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
+        imagesListView.heightAnchor.constraint(equalTo: scrollView.heightAnchor).isActive = true
+        
         imagesListView.register(nil, forIdentifier: NSUserInterfaceItemIdentifier(rawValue: "cell"))
         addSubview(containerView)
         
         imagesListView.dataSource = viewModel
         imagesListView.usesAlternatingRowBackgroundColors = true
         
-        imageDetailView.layer?.backgroundColor = NSColor.yellow.cgColor
-        
-        imagesListView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.3).isActive = true
         imageDetailView.translatesAutoresizingMaskIntoConstraints = false
-        imageDetailView.widthAnchor.constraint(equalToConstant: 500).isActive = true
-        imageDetailView.heightAnchor.constraint(equalToConstant: 500).isActive = true
+        imageContainer.addSubview(imageDetailView)
+
+        
+        scrollView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.3).isActive = true
+        imageContainer.translatesAutoresizingMaskIntoConstraints = false
+        imageDetailView.centerYAnchor.constraint(equalTo: imageContainer.centerYAnchor).isActive = true
+        imageDetailView.centerXAnchor.constraint(equalTo: imageContainer.centerXAnchor).isActive = true
+        imageContainer.widthAnchor.constraint(equalToConstant: 500).isActive = true
+        imageContainer.heightAnchor.constraint(equalToConstant: 500).isActive = true
         containerView.widthAnchor.constraint(equalTo: widthAnchor).isActive = true
         containerView.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         containerView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
