@@ -44,7 +44,55 @@ class ImageDetailView: NSImageView, NSDraggingSource {
     
     override func mouseUp(with event: NSEvent) {
         super.mouseUp(with: event)
-        print("\(annotation?.frame)")
+        
+        let alert: NSAlert = NSAlert()
+        alert.messageText = "Adding annotation"
+        alert.informativeText = "Add the title for the image annotation"
+        alert.alertStyle = NSAlert.Style.informational
+        
+        alert.accessoryView = NSTextField(frame: NSRect(x: 0, y: 0, width: 100, height: 20))
+        alert.addButton(withTitle: "Ok")
+        alert.addButton(withTitle: "Cancel")
+        
+        alert.beginSheetModal(for: self.window!, completionHandler: { [weak self] modalResponse in
+            guard let self = self, let annotation = self.annotation else { return }
+            switch modalResponse {
+            case .alertFirstButtonReturn:
+                print("OK")
+                
+                
+                let img = ImageAnnotation(image: "img1.png", annotations: [Annotation(label: "label1", coordinates: Coordinate(x: annotation.frame.origin.x, y: annotation.frame.origin.y, width: annotation.frame.width, height: annotation.frame.height))])
+                
+                
+                
+                
+                
+                let file = "result.json" //this is the file. we will write to and read from it
+                if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
+
+                    let fileURL = dir.appendingPathComponent(file)
+
+                    //writing
+                    do {
+                        try JSONEncoder().encode(img).write(to: fileURL)
+                    }
+                    catch {/* error handling here */}
+
+//                    //reading
+//                    do {
+//                        let text2 = try String(contentsOf: fileURL, encoding: .utf8)
+//                    }
+//                    catch {/* error handling here */}
+                }
+                
+                
+            case .alertSecondButtonReturn:
+                self.annotation?.removeFromSuperview()
+                self.iPoint = .zero
+                self.ePoint = .zero
+            default: break
+            }
+        })
     }
     
 }

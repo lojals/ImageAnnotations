@@ -24,8 +24,6 @@ class ViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         imageAnnotationsView.viewModel = self
-        
-        imageAnnotationsView.image = NSImage(named: "hit7.jpg")
     }
     
     override func loadView() {
@@ -65,9 +63,7 @@ extension ViewController: ImageAnnotationsViewViewModel {
             let data = try Data(contentsOf: urls[row])
             let image = NSImage(data: data)
             imageAnnotationsView.image = image
-        } catch {
-            
-        }
+        } catch { }
         return true
     }
     
