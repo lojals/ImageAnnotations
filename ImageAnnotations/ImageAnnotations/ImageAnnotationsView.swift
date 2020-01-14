@@ -70,7 +70,6 @@ final class ImageAnnotationsView: NSView {
         
         imageDetailView.translatesAutoresizingMaskIntoConstraints = false
         imageContainer.addSubview(imageDetailView)
-
         
         scrollView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.3).isActive = true
         imageContainer.translatesAutoresizingMaskIntoConstraints = false

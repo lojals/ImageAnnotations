@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class ViewController: NSViewController {
+final class ImageAnnotationsViewController: NSViewController {
 
     var imageAnnotationsView: ImageAnnotationsView {
         view as! ImageAnnotationsView
@@ -40,7 +40,7 @@ class ViewController: NSViewController {
 
 }
 
-extension ViewController: NSOpenSavePanelDelegate {
+extension ImageAnnotationsViewController: NSOpenSavePanelDelegate {
     
     func panel(_ sender: Any, validate url: URL) throws {
         urls = (sender as? NSOpenPanel)?.urls ?? []
@@ -48,7 +48,7 @@ extension ViewController: NSOpenSavePanelDelegate {
     
 }
 
-extension ViewController: ImageAnnotationsViewViewModel {
+extension ImageAnnotationsViewController: ImageAnnotationsViewViewModel {
     
     func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
         return NSCell(textCell: urls[row].lastPathComponent)
@@ -66,5 +66,4 @@ extension ViewController: ImageAnnotationsViewViewModel {
         } catch { }
         return true
     }
-    
 }

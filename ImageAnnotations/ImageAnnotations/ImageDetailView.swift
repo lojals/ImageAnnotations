@@ -8,27 +8,12 @@
 
 import Cocoa
 
-class ImageDetailView: NSImageView, NSDraggingSource {
-
-    override func draw(_ dirtyRect: NSRect) {
-        super.draw(dirtyRect)
-
-        // Drawing code here.
-    }
+final class ImageDetailView: NSImageView {
     
     var iPoint: CGPoint = .zero
     var ePoint: CGPoint = .zero
     
     var annotation: AnnotationView?
-    
-    override func beginDraggingSession(with items: [NSDraggingItem], event: NSEvent, source: NSDraggingSource) -> NSDraggingSession {
-        print("sdfsdfsdf")
-        return NSDraggingSession()
-    }
-    
-    func draggingSession(_ session: NSDraggingSession, sourceOperationMaskFor context: NSDraggingContext) -> NSDragOperation {
-           NSDragOperation()
-    }
     
     override func mouseDown(with event: NSEvent) {
         super.mouseDown(with: event)
@@ -58,34 +43,14 @@ class ImageDetailView: NSImageView, NSDraggingSource {
             guard let self = self, let annotation = self.annotation else { return }
             switch modalResponse {
             case .alertFirstButtonReturn:
-                print("OK")
-                
-                
                 let img = ImageAnnotation(image: "img1.png", annotations: [Annotation(label: "label1", coordinates: Coordinate(x: annotation.frame.origin.x, y: annotation.frame.origin.y, width: annotation.frame.width, height: annotation.frame.height))])
-                
-                
-                
-                
-                
-                let file = "result.json" //this is the file. we will write to and read from it
+                let file = "result.json"
                 if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
-
                     let fileURL = dir.appendingPathComponent(file)
-
-                    //writing
-                    do {
-                        try JSONEncoder().encode(img).write(to: fileURL)
-                    }
-                    catch {/* error handling here */}
-
-//                    //reading
-//                    do {
-//                        let text2 = try String(contentsOf: fileURL, encoding: .utf8)
-//                    }
-//                    catch {/* error handling here */}
+                    let encoder  = JSONEncoder()
+                    encoder.outputFormatting = .prettyPrinted
+                    try? encoder.encode(img).write(to: fileURL)
                 }
-                
-                
             case .alertSecondButtonReturn:
                 self.annotation?.removeFromSuperview()
                 self.iPoint = .zero
