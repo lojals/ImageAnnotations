@@ -22,25 +22,17 @@ final class ImageAnnotationsView: NSView {
         }
     }
     
-    
     private lazy var scrollView: NSScrollView = NSScrollView()
     private lazy var imageContainer: NSView = .init()
     private lazy var imagesListView: NSTableView = {
         let table = NSTableView(frame: .zero)
-           table.backgroundColor = .clear
-              
-           let column = NSTableColumn(identifier: NSUserInterfaceItemIdentifier(rawValue: "column"))
-           column.width = 1
-            column.headerCell = NSTableHeaderCell(textCell: "Images")
-           table.addTableColumn(column)
-           return table
+        table.backgroundColor = .clear
+        let column = NSTableColumn(identifier: NSUserInterfaceItemIdentifier(rawValue: "column"))
+        column.width = 1
+        column.headerCell = NSTableHeaderCell(textCell: "Images")
+        table.addTableColumn(column)
+        return table
     }()
-    
-    private var image: NSImage? {
-        didSet {
-            imageDetailView.image = image
-        }
-    }
     
     private lazy var imageDetailView: ImageDetailView = .init()
     
@@ -80,7 +72,6 @@ final class ImageAnnotationsView: NSView {
             containerView.centerXAnchor.constraint(equalTo: centerXAnchor),
             containerView.heightAnchor.constraint(equalTo: heightAnchor)
         ])
-        
     }
     
     override init(frame frameRect: NSRect) {
@@ -103,6 +94,10 @@ extension ImageAnnotationsView: ImageAnnotationsViewModelBinder {
         imageDetailView.subviews.forEach { $0.removeFromSuperview() }
         imageDetailView.image = viewModel.currentImage
         imagesListView.reloadData()
+        
+        for annotation in viewModel.currentAnnotations {
+            
+        }
     }
     
 }

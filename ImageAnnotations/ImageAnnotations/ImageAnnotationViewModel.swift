@@ -14,9 +14,11 @@ protocol ImageAnnotationsViewModelBinder {
 }
 
 protocol ImageAnnotationsViewModelProtocol: NSTableViewDataSource, NSTableViewDelegate {
-    var annotations: [ImageAnnotation] { get  set }
+    var annotations: [String: ImageAnnotation] { get  set }
     var urls: [URL] { get set }
+    
     var currentImage: NSImage? { get set }
+    var currentAnnotations: [Annotation] { get set }
 }
 
 final class ImageAnnotationViewModel: NSObject, ImageAnnotationsViewModelProtocol {
@@ -25,7 +27,9 @@ final class ImageAnnotationViewModel: NSObject, ImageAnnotationsViewModelProtoco
 
     var currentImage: NSImage?
     
-    var annotations: [ImageAnnotation] = []
+    var currentAnnotations: [Annotation] = []
+    
+    var annotations: [String: ImageAnnotation] = [:]
     
     var urls: [URL] = [] {
         didSet {
@@ -43,8 +47,10 @@ final class ImageAnnotationViewModel: NSObject, ImageAnnotationsViewModelProtoco
     
     func tableView(_ tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
         do {
-            let data = try Data(contentsOf: urls[row])
+            let url = urls[row]
+            let data = try Data(contentsOf: url)
             currentImage = NSImage(data: data)
+            currentAnnotations = annotations[url.lastPathComponent]?.annotations ?? []
             binder?.bind(self)
         } catch { }
         return true

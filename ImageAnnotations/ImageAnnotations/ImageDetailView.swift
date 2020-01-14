@@ -8,7 +8,13 @@
 
 import Cocoa
 
+protocol ImageDetailViewDelegate {
+    func addedAnnotation(name: String, coordinate: Coordinate)
+}
+
 final class ImageDetailView: NSImageView {
+    
+    var delegate: ImageDetailViewDelegate?
     
     var iPoint: CGPoint = .zero
     var ePoint: CGPoint = .zero
@@ -43,14 +49,19 @@ final class ImageDetailView: NSImageView {
             guard let self = self, let annotation = self.annotation else { return }
             switch modalResponse {
             case .alertFirstButtonReturn:
-                let img = ImageAnnotation(image: "img1.png", annotations: [Annotation(label: "label1", coordinates: Coordinate(x: annotation.frame.origin.x, y: annotation.frame.origin.y, width: annotation.frame.width, height: annotation.frame.height))])
-                let file = "result.json"
-                if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
-                    let fileURL = dir.appendingPathComponent(file)
-                    let encoder  = JSONEncoder()
-                    encoder.outputFormatting = .prettyPrinted
-                    try? encoder.encode(img).write(to: fileURL)
-                }
+                self.delegate?.addedAnnotation(name: "title", coordinate: Coordinate(x: self.iPoint.x,
+                                                                                y: self.ePoint.y,
+                                                                                width: self.ePoint.x-self.iPoint.x,
+                                                                                height: self.iPoint.y-self.ePoint.y))
+                
+//                let img = ImageAnnotation(image: "img1.png", annotations: [Annotation(label: "label1", coordinates: Coordinate(x: annotation.frame.origin.x, y: annotation.frame.origin.y, width: annotation.frame.width, height: annotation.frame.height))])
+//                let file = "result.json"
+//                if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
+//                    let fileURL = dir.appendingPathComponent(file)
+//                    let encoder  = JSONEncoder()
+//                    encoder.outputFormatting = .prettyPrinted
+//                    try? encoder.encode(img).write(to: fileURL)
+//                }
             case .alertSecondButtonReturn:
                 self.annotation?.removeFromSuperview()
                 self.iPoint = .zero
@@ -58,6 +69,10 @@ final class ImageDetailView: NSImageView {
             default: break
             }
         })
+    }
+    
+    func renderAnnotation(_ coordinate: Coordinate) {
+        addSubview(AnnotationView(frame: NSRect(x: coordinate.x, y: coordinate.y, width: coordinate.width, height: coordinate.height)))
     }
     
 }
