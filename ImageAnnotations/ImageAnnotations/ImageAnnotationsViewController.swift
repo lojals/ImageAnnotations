@@ -10,22 +10,19 @@ import Cocoa
 
 final class ImageAnnotationsViewController: NSViewController {
 
-    var imageAnnotationsView: ImageAnnotationsView {
+    private var imageAnnotationsView: ImageAnnotationsView {
         view as! ImageAnnotationsView
     }
     
-    private var urls: [URL] = [] {
-        didSet {
-            print(urls)
-            imageAnnotationsView.imagesListView.reloadData()
-        }
-    }
+    let viewModel = ImageAnnotationViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        imageAnnotationsView.viewModel = self
+        imageAnnotationsView.delegate = viewModel
+        imageAnnotationsView.dataSource = viewModel
+        viewModel.binder = imageAnnotationsView
     }
-    
+
     override func loadView() {
         let imageAnnotationsView = ImageAnnotationsView()
         imageAnnotationsView.translatesAutoresizingMaskIntoConstraints = false
@@ -37,33 +34,12 @@ final class ImageAnnotationsViewController: NSViewController {
         dialog.delegate = self
         dialog.runModal()
     }
-
 }
 
 extension ImageAnnotationsViewController: NSOpenSavePanelDelegate {
     
     func panel(_ sender: Any, validate url: URL) throws {
-        urls = (sender as? NSOpenPanel)?.urls ?? []
+        viewModel.urls = (sender as? NSOpenPanel)?.urls ?? []
     }
     
-}
-
-extension ImageAnnotationsViewController: ImageAnnotationsViewViewModel {
-    
-    func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
-        return NSCell(textCell: urls[row].lastPathComponent)
-    }
-    
-    func numberOfRows(in tableView: NSTableView) -> Int {
-        return urls.count
-    }
-    
-    func tableView(_ tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
-        do {
-            let data = try Data(contentsOf: urls[row])
-            let image = NSImage(data: data)
-            imageAnnotationsView.image = image
-        } catch { }
-        return true
-    }
 }

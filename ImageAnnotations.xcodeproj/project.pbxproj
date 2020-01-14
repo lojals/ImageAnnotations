@@ -16,6 +16,7 @@
 		7AE1AB1223C799F10088B08F /* ImageDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AE1AB1123C799F10088B08F /* ImageDetailView.swift */; };
 		7AE1AB1423C8FD5F0088B08F /* AnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AE1AB1323C8FD5F0088B08F /* AnnotationView.swift */; };
 		7AE1AB1723C91F420088B08F /* ImageAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AE1AB1623C91F420088B08F /* ImageAnnotation.swift */; };
+		7AE1AB1923CE382D0088B08F /* ImageAnnotationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AE1AB1823CE382D0088B08F /* ImageAnnotationViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +32,7 @@
 		7AE1AB1123C799F10088B08F /* ImageDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDetailView.swift; sourceTree = "<group>"; };
 		7AE1AB1323C8FD5F0088B08F /* AnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotationView.swift; sourceTree = "<group>"; };
 		7AE1AB1623C91F420088B08F /* ImageAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAnnotation.swift; sourceTree = "<group>"; };
+		7AE1AB1823CE382D0088B08F /* ImageAnnotationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAnnotationViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +89,7 @@
 			children = (
 				7A4BBDF323C3A3FE0037C111 /* ImageAnnotationsViewController.swift */,
 				7A4BBE0523C545650037C111 /* ImageAnnotationsView.swift */,
+				7AE1AB1823CE382D0088B08F /* ImageAnnotationViewModel.swift */,
 				7AE1AB1523C91F200088B08F /* Model */,
 				7AE1AB1123C799F10088B08F /* ImageDetailView.swift */,
 				7AE1AB1323C8FD5F0088B08F /* AnnotationView.swift */,
@@ -175,6 +178,7 @@
 				7A4BBE0323C3E3DB0037C111 /* NSOpenPanel+Custom.swift in Sources */,
 				7AE1AB1423C8FD5F0088B08F /* AnnotationView.swift in Sources */,
 				7A4BBE0623C545650037C111 /* ImageAnnotationsView.swift in Sources */,
+				7AE1AB1923CE382D0088B08F /* ImageAnnotationViewModel.swift in Sources */,
 				7AE1AB1723C91F420088B08F /* ImageAnnotation.swift in Sources */,
 				7A4BBDF423C3A3FE0037C111 /* ImageAnnotationsViewController.swift in Sources */,
 				7A4BBDF223C3A3FE0037C111 /* AppDelegate.swift in Sources */,
