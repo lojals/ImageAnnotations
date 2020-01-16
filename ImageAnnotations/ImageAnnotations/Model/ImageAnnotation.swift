@@ -10,7 +10,7 @@ import Foundation
 
 struct ImageAnnotation: Encodable {
     let image: String
-    let annotations: [Annotation]
+    var annotations: [Annotation]
 }
 
 struct Annotation: Encodable {

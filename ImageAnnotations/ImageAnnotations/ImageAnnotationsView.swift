@@ -10,9 +10,10 @@ import Cocoa
 
 final class ImageAnnotationsView: NSView {
     
-    var delegate: NSTableViewDelegate? {
+    var delegate: (NSTableViewDelegate & ImageDetailViewDelegate)? {
         didSet {
             imagesListView.delegate = delegate
+            imageDetailView.delegate = delegate
         }
     }
     

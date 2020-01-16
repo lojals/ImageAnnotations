@@ -19,6 +19,7 @@ protocol ImageAnnotationsViewModelProtocol: NSTableViewDataSource, NSTableViewDe
     
     var currentImage: NSImage? { get set }
     var currentAnnotations: [Annotation] { get set }
+    var currentURL: URL? { get set }
 }
 
 final class ImageAnnotationViewModel: NSObject, ImageAnnotationsViewModelProtocol {
@@ -28,6 +29,8 @@ final class ImageAnnotationViewModel: NSObject, ImageAnnotationsViewModelProtoco
     var currentImage: NSImage?
     
     var currentAnnotations: [Annotation] = []
+    
+    var currentURL: URL?
     
     var annotations: [String: ImageAnnotation] = [:]
     
@@ -50,10 +53,23 @@ final class ImageAnnotationViewModel: NSObject, ImageAnnotationsViewModelProtoco
             let url = urls[row]
             let data = try Data(contentsOf: url)
             currentImage = NSImage(data: data)
+            
+            currentURL = url
+            
             currentAnnotations = annotations[url.lastPathComponent]?.annotations ?? []
             binder?.bind(self)
         } catch { }
         return true
+    }
+    
+}
+
+extension ImageAnnotationViewModel: ImageDetailViewDelegate {
+    
+    func addedAnnotation(name: String, coordinate: Coordinate) {
+        guard let currentURL = currentURL else { return }
+        let annotation = Annotation(label: name, coordinates: coordinate)
+        annotations[currentURL.lastPathComponent, default: ImageAnnotation(image: currentURL.lastPathComponent, annotations: [])].annotations.append(annotation)
     }
     
 }
