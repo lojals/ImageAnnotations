@@ -97,7 +97,7 @@ extension ImageAnnotationsView: ImageAnnotationsViewModelBinder {
         imagesListView.reloadData()
         
         for annotation in viewModel.currentAnnotations {
-            
+            imageDetailView.renderAnnotation(annotation.coordinate)
         }
     }
     

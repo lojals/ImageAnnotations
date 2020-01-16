@@ -15,7 +15,7 @@ struct ImageAnnotation: Encodable {
 
 struct Annotation: Encodable {
     let label: String
-    let coordinates: Coordinate
+    let coordinate: Coordinate
 }
 
 struct Coordinate: Encodable {

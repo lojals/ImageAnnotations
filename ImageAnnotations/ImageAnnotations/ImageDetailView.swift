@@ -54,7 +54,7 @@ final class ImageDetailView: NSImageView {
                                                                                 width: self.ePoint.x-self.iPoint.x,
                                                                                 height: self.iPoint.y-self.ePoint.y))
                 
-//                let img = ImageAnnotation(image: "img1.png", annotations: [Annotation(label: "label1", coordinates: Coordinate(x: annotation.frame.origin.x, y: annotation.frame.origin.y, width: annotation.frame.width, height: annotation.frame.height))])
+//                let img = ImageAnnotation(image: "img1.png", annotations: [Annotation(label: "label1", coordinate: Coordinate(x: annotation.frame.origin.x, y: annotation.frame.origin.y, width: annotation.frame.width, height: annotation.frame.height))])
 //                let file = "result.json"
 //                if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
 //                    let fileURL = dir.appendingPathComponent(file)

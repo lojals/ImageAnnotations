@@ -53,9 +53,7 @@ final class ImageAnnotationViewModel: NSObject, ImageAnnotationsViewModelProtoco
             let url = urls[row]
             let data = try Data(contentsOf: url)
             currentImage = NSImage(data: data)
-            
             currentURL = url
-            
             currentAnnotations = annotations[url.lastPathComponent]?.annotations ?? []
             binder?.bind(self)
         } catch { }
@@ -68,7 +66,7 @@ extension ImageAnnotationViewModel: ImageDetailViewDelegate {
     
     func addedAnnotation(name: String, coordinate: Coordinate) {
         guard let currentURL = currentURL else { return }
-        let annotation = Annotation(label: name, coordinates: coordinate)
+        let annotation = Annotation(label: name, coordinate: coordinate)
         annotations[currentURL.lastPathComponent, default: ImageAnnotation(image: currentURL.lastPathComponent, annotations: [])].annotations.append(annotation)
     }
     
