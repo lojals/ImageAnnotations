@@ -23,6 +23,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         window.styleMask = [.closable, .titled]
         window.title = "Image Annotations"
         window.setContentSize(NSSize(width: 1000, height: 600))
+        window.maxSize = NSSize(width: 1000, height: 600)
+        window.contentMaxSize = NSSize(width: 1000, height: 600)
         
         window.center()
         window.orderFrontRegardless()

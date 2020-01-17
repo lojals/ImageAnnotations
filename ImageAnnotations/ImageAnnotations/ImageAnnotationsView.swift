@@ -25,6 +25,7 @@ final class ImageAnnotationsView: NSView {
     
     private lazy var scrollView: NSScrollView = NSScrollView()
     private lazy var imageContainer: NSView = .init()
+    
     private lazy var imagesListView: NSTableView = {
         let table = NSTableView(frame: .zero)
         table.backgroundColor = .clear
@@ -33,6 +34,17 @@ final class ImageAnnotationsView: NSView {
         column.headerCell = NSTableHeaderCell(textCell: "Images")
         table.addTableColumn(column)
         return table
+    }()
+    
+    
+    lazy var splitView: NSSplitView = {
+        let splitView = NSSplitView(frame: self.bounds)
+        splitView.isVertical = false
+        splitView.dividerStyle = .thin
+        splitView.addArrangedSubview(self.scrollView)
+        splitView.addArrangedSubview(self.imageContainer)
+        splitView.translatesAutoresizingMaskIntoConstraints = false
+        return splitView
     }()
     
     private lazy var imageDetailView: ImageDetailView = .init()
@@ -51,15 +63,19 @@ final class ImageAnnotationsView: NSView {
     convenience init() {
         self.init(frame: .zero)
         
+//        window?.contentView?.addSubview(splitView)
+        self.addSubview(splitView)
+
         scrollView.addSubview(imagesListView)
-        imagesListView.register(nil, forIdentifier: NSUserInterfaceItemIdentifier(rawValue: "cell"))
-        addSubview(containerView)
         
+        imagesListView.register(nil, forIdentifier: NSUserInterfaceItemIdentifier(rawValue: "cell"))
+//        addSubview(containerView)
+
         imagesListView.usesAlternatingRowBackgroundColors = true
         imageDetailView.translatesAutoresizingMaskIntoConstraints = false
         imageContainer.addSubview(imageDetailView)
         imageContainer.translatesAutoresizingMaskIntoConstraints = false
-        
+
         NSLayoutConstraint.activate([
             imagesListView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
             imagesListView.heightAnchor.constraint(equalTo: scrollView.heightAnchor),
@@ -68,10 +84,10 @@ final class ImageAnnotationsView: NSView {
             imageDetailView.centerXAnchor.constraint(equalTo: imageContainer.centerXAnchor),
             imageContainer.widthAnchor.constraint(equalToConstant: 500),
             imageContainer.heightAnchor.constraint(equalToConstant: 500),
-            containerView.widthAnchor.constraint(equalTo: widthAnchor),
-            containerView.centerYAnchor.constraint(equalTo: centerYAnchor),
-            containerView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            containerView.heightAnchor.constraint(equalTo: heightAnchor)
+            splitView.widthAnchor.constraint(equalTo: widthAnchor),
+            splitView.centerYAnchor.constraint(equalTo: centerYAnchor),
+            splitView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            splitView.heightAnchor.constraint(equalTo: heightAnchor)
         ])
     }
     

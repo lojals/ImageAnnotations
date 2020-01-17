@@ -53,15 +53,7 @@ final class ImageDetailView: NSImageView {
                                                                                 y: self.ePoint.y,
                                                                                 width: self.ePoint.x-self.iPoint.x,
                                                                                 height: self.iPoint.y-self.ePoint.y))
-                
-//                let img = ImageAnnotation(image: "img1.png", annotations: [Annotation(label: "label1", coordinate: Coordinate(x: annotation.frame.origin.x, y: annotation.frame.origin.y, width: annotation.frame.width, height: annotation.frame.height))])
-//                let file = "result.json"
-//                if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
-//                    let fileURL = dir.appendingPathComponent(file)
-//                    let encoder  = JSONEncoder()
-//                    encoder.outputFormatting = .prettyPrinted
-//                    try? encoder.encode(img).write(to: fileURL)
-//                }
+            
             case .alertSecondButtonReturn:
                 self.annotation?.removeFromSuperview()
                 self.iPoint = .zero

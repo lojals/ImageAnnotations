@@ -8,21 +8,23 @@
 
 import Cocoa
 
-class AnnotationView: NSView {
+final class AnnotationView: NSView {
 
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
         layer?.borderColor = NSColor.red.cgColor
         layer?.borderWidth = 2
+        layer?.backgroundColor = NSColor(calibratedRed: 1, green: 0, blue: 0, alpha: 0.5).cgColor
     }
     
-    override init(frame frameRect: NSRect) {
-        super.init(frame: frameRect)
+    override func mouseDown(with event: NSEvent) {
+        let filtersSubmenu = NSMenu()
+        let filterItem = NSMenuItem(title: "Zoom In", action: #selector(remove), keyEquivalent: "")
+        filtersSubmenu.addItem(filterItem)
+        self.menu = filtersSubmenu
     }
     
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    @objc func remove() {
+        
     }
-    
 }
