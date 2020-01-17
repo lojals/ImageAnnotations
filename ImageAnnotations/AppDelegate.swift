@@ -10,17 +10,25 @@ import Cocoa
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
-
-
-
+    
+    var mainWindow: NSWindow?
+    var mainController: NSWindowController?
+    
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        // Insert code here to initialize your application
+        let vc = MainSplitViewController()
+        let window = NSWindow(contentViewController: vc)
+        window.styleMask = [.closable, .titled]
+        window.title = "Image Annotations"
+        window.setContentSize(NSSize(width: 1000, height: 600))
+        
+        window.center()
+        window.orderFrontRegardless()
+        mainWindow = window
+        
+        let controller = NSWindowController(window: window)
+        controller.showWindow(window)
+        mainController = controller
+        NSApp.activate(ignoringOtherApps: true)
     }
-
-    func applicationWillTerminate(_ aNotification: Notification) {
-        // Insert code here to tear down your application
-    }
-
 
 }
-
