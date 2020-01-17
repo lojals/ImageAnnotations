@@ -6,15 +6,14 @@
 //  Copyright © 2020 Jorge Ovalle. All rights reserved.
 //
 
-import Foundation
 import Cocoa
 
-class MainSplitViewController: NSSplitViewController {
+final class MainSplitViewController: NSSplitViewController {
     
     private let splitViewResorationIdentifier = "com.company.restorationId:mainSplitViewController"
     
-    lazy var vcA = TableView()
-    lazy var vcB = ImageDetailViewController()
+    lazy var documentsTableView = TableView()
+    lazy var imageDetailView = ImageDetailViewController()
     
     let viewModel = ImageAnnotationViewModel()
     
@@ -24,6 +23,7 @@ class MainSplitViewController: NSSplitViewController {
         setupLayout()
     }
     
+    @available (*, unavailable)
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
@@ -31,9 +31,18 @@ class MainSplitViewController: NSSplitViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        vcA.delegate = viewModel
-        vcA.dataSource = viewModel
-        viewModel.binder = vcA
+        documentsTableView.delegate = viewModel
+        documentsTableView.dataSource = viewModel
+        viewModel.binder = self
+    }
+    
+}
+
+extension MainSplitViewController: ImageAnnotationsViewModelBinder {
+    
+    func bind(_ viewModel: ImageAnnotationsViewModelProtocol) {
+        documentsTableView.bind(viewModel)
+        imageDetailView.bind(viewModel)
     }
     
 }
@@ -66,18 +75,18 @@ extension MainSplitViewController {
         splitView.autosaveName = splitViewResorationIdentifier
         splitView.identifier = NSUserInterfaceItemIdentifier(rawValue: splitViewResorationIdentifier)
         
-        vcA.view.widthAnchor.constraint(greaterThanOrEqualToConstant: 200).isActive = true
-        vcB.view.widthAnchor.constraint(greaterThanOrEqualToConstant: 100).isActive = true
+        documentsTableView.view.widthAnchor.constraint(greaterThanOrEqualToConstant: 200).isActive = true
+        imageDetailView.view.widthAnchor.constraint(greaterThanOrEqualToConstant: 100).isActive = true
     }
     
     private func setupLayout() {
         
-        let sidebarItem = NSSplitViewItem(viewController: vcA)
+        let sidebarItem = NSSplitViewItem(viewController: documentsTableView)
         sidebarItem.canCollapse = false
         sidebarItem.holdingPriority = NSLayoutConstraint.Priority(NSLayoutConstraint.Priority.defaultLow.rawValue + 1)
         addSplitViewItem(sidebarItem)
         
-        let xibItem = NSSplitViewItem(viewController: vcB)
+        let xibItem = NSSplitViewItem(viewController: imageDetailView)
         addSplitViewItem(xibItem)
     }
 }

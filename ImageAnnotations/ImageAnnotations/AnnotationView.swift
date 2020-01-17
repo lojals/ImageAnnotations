@@ -16,14 +16,7 @@ final class AnnotationView: NSView {
         layer?.borderWidth = 2
         layer?.backgroundColor = NSColor(calibratedRed: 1, green: 0, blue: 0, alpha: 0.5).cgColor
     }
-    
-    override func mouseDown(with event: NSEvent) {
-        let filtersSubmenu = NSMenu()
-        let filterItem = NSMenuItem(title: "Zoom In", action: #selector(remove), keyEquivalent: "")
-        filtersSubmenu.addItem(filterItem)
-        self.menu = filtersSubmenu
-    }
-    
+
     @objc func remove() {
         
     }

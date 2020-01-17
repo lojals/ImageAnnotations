@@ -66,13 +66,20 @@ final class ImageDetailViewController: NSViewController {
 extension TableView: ImageAnnotationsViewModelBinder {
     
     func bind(_ viewModel: ImageAnnotationsViewModelProtocol) {
-//        imageDetailView.subviews.forEach { $0.removeFromSuperview() }
-//        imageDetailView.image = viewModel.currentImage
         imagesListView.reloadData()
+    }
+    
+}
+
+extension ImageDetailViewController: ImageAnnotationsViewModelBinder {
+    
+    func bind(_ viewModel: ImageAnnotationsViewModelProtocol) {
+        imageDetailView.subviews.forEach { $0.removeFromSuperview() }
+        imageDetailView.image = viewModel.currentImage
         
-//        for annotation in viewModel.currentAnnotations {
-//            imageDetailView.renderAnnotation(annotation.coordinate)
-//        }
+        for annotation in viewModel.currentAnnotations {
+            imageDetailView.renderAnnotation(annotation.coordinate)
+        }
     }
     
 }
