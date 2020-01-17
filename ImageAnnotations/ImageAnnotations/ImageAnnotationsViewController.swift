@@ -8,7 +8,19 @@
 
 import Cocoa
 
-final class TableView: NSViewController, NSTableViewDataSource {
+final class TableView: NSViewController {
+    
+    var delegate: NSTableViewDelegate? {
+        didSet {
+            imagesListView.delegate = delegate
+        }
+    }
+    
+    var dataSource: NSTableViewDataSource? {
+        didSet {
+            imagesListView.dataSource = dataSource
+        }
+    }
     
     private lazy var imagesListView: NSTableView = {
         let table = NSTableView(frame: .zero)
@@ -32,25 +44,6 @@ final class TableView: NSViewController, NSTableViewDataSource {
         view.wantsLayer = true
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        let d = ImageAnnotationViewModel()
-        imagesListView.delegate = d
-        imagesListView.dataSource = self
-    }
-    
-    func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
-        return NSCell(textCell: "Hola")
-    }
-    
-    func numberOfRows(in tableView: NSTableView) -> Int {
-        return 100
-    }
-    
-    func tableView(_ tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
-           return true
-    }
-    
 }
 
 final class ImageDetailViewController: NSViewController {
@@ -70,46 +63,16 @@ final class ImageDetailViewController: NSViewController {
     
 }
 
-
-
-
-
-
-
-
-final class ImageAnnotationsViewController: NSViewController {
-
-    private var imageAnnotationsView: ImageAnnotationsView {
-        view as! ImageAnnotationsView
-    }
+extension TableView: ImageAnnotationsViewModelBinder {
     
-    let viewModel = ImageAnnotationViewModel()
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        imageAnnotationsView.delegate = viewModel
-        imageAnnotationsView.dataSource = viewModel
-        viewModel.binder = imageAnnotationsView
-    }
-
-    override func loadView() {
-        let imageAnnotationsView = ImageAnnotationsView()
-        imageAnnotationsView.translatesAutoresizingMaskIntoConstraints = false
-        self.view = imageAnnotationsView
-    }
-    
-    @IBAction func openDocument(_ sender: Any?) {
-        let dialog = NSOpenPanel.make()
-        dialog.delegate = self
-        dialog.runModal()
-    }
-
-}
-
-extension ImageAnnotationsViewController: NSOpenSavePanelDelegate {
-    
-    func panel(_ sender: Any, validate url: URL) throws {
-        viewModel.urls = (sender as? NSOpenPanel)?.urls ?? []
+    func bind(_ viewModel: ImageAnnotationsViewModelProtocol) {
+//        imageDetailView.subviews.forEach { $0.removeFromSuperview() }
+//        imageDetailView.image = viewModel.currentImage
+        imagesListView.reloadData()
+        
+//        for annotation in viewModel.currentAnnotations {
+//            imageDetailView.renderAnnotation(annotation.coordinate)
+//        }
     }
     
 }

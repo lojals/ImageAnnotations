@@ -16,8 +16,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         
-        NSApp.mainMenu = MainMenu()
-        
         let vc = MainSplitViewController()
         let window = NSWindow(contentViewController: vc)
         window.styleMask = [.closable, .titled]
@@ -34,6 +32,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         controller.showWindow(window)
         mainController = controller
         NSApp.activate(ignoringOtherApps: true)
+        
+        NSApp.mainMenu = MainMenu(target: vc)
     }
 
 }

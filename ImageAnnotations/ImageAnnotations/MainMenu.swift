@@ -9,16 +9,34 @@
 import Foundation
 import Cocoa
 
+@objc protocol MenuProtocol: AnyObject {
+    func quit(sender: AnyObject)
+    func selectImages(sender: AnyObject)
+    func export(sender: AnyObject)
+}
+
 final class MainMenu: NSMenu {
     
-    let quit = NSMenuItem(title: "Quit", action: #selector(quit(sender:)), keyEquivalent: "q")
-    let selectImages = NSMenuItem(title: "Select Images...", action: #selector(quit(sender:)), keyEquivalent: "o")
-    let export = NSMenuItem(title: "Export", action: #selector(quit(sender:)), keyEquivalent: "e")
+    private lazy var quit = NSMenuItem(title: "Quit",
+                                       action: #selector(self.delegatee?.quit(sender:)),
+                                       keyEquivalent: "q")
     
-    init() {
+    private lazy var selectImages = NSMenuItem(title: "Select Images...",
+                                               action: #selector(self.delegatee?.selectImages(sender:)),
+                                               keyEquivalent: "o")
+    
+    private lazy var export = NSMenuItem(title: "Export",
+                                         action: #selector(self.delegatee?.export(sender:)),
+                                         keyEquivalent: "e")
+    
+    weak var delegatee: MenuProtocol?
+    
+    init(target: MenuProtocol) {
+        
+        self.delegatee = target
         super.init(title: "ImageAnnotations")
         
-        quit.target = self
+        quit.target = target
         let mainMenuFileItem = NSMenuItem()
         
         let mainMenu = NSMenu(title: "ImageAnnotations")
@@ -37,9 +55,5 @@ final class MainMenu: NSMenu {
     @available (*, unavailable)
     required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    @objc func quit(sender: NSMenuItem) {
-      NSApp.terminate(self)
     }
 }
