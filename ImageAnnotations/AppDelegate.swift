@@ -15,6 +15,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var mainController: NSWindowController?
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
+        
+        NSApp.mainMenu = MainMenu()
+        
         let vc = MainSplitViewController()
         let window = NSWindow(contentViewController: vc)
         window.styleMask = [.closable, .titled]

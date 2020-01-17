@@ -13,6 +13,7 @@
 		7A4BBDF923C3A4010037C111 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7A4BBDF723C3A4010037C111 /* Main.storyboard */; };
 		7A4BBE0323C3E3DB0037C111 /* NSOpenPanel+Custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4BBE0223C3E3DB0037C111 /* NSOpenPanel+Custom.swift */; };
 		7A4BBE0623C545650037C111 /* ImageAnnotationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4BBE0523C545650037C111 /* ImageAnnotationsView.swift */; };
+		7ADB115123D2347A00C81595 /* MainMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ADB115023D2347A00C81595 /* MainMenu.swift */; };
 		7AE1AB1223C799F10088B08F /* ImageDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AE1AB1123C799F10088B08F /* ImageDetailView.swift */; };
 		7AE1AB1423C8FD5F0088B08F /* AnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AE1AB1323C8FD5F0088B08F /* AnnotationView.swift */; };
 		7AE1AB1723C91F420088B08F /* ImageAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AE1AB1623C91F420088B08F /* ImageAnnotation.swift */; };
@@ -29,6 +30,7 @@
 		7A4BBDFB23C3A4010037C111 /* ImageAnnotations.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ImageAnnotations.entitlements; sourceTree = "<group>"; };
 		7A4BBE0223C3E3DB0037C111 /* NSOpenPanel+Custom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSOpenPanel+Custom.swift"; sourceTree = "<group>"; };
 		7A4BBE0523C545650037C111 /* ImageAnnotationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAnnotationsView.swift; sourceTree = "<group>"; };
+		7ADB115023D2347A00C81595 /* MainMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenu.swift; sourceTree = "<group>"; };
 		7AE1AB1123C799F10088B08F /* ImageDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDetailView.swift; sourceTree = "<group>"; };
 		7AE1AB1323C8FD5F0088B08F /* AnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotationView.swift; sourceTree = "<group>"; };
 		7AE1AB1623C91F420088B08F /* ImageAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAnnotation.swift; sourceTree = "<group>"; };
@@ -93,6 +95,7 @@
 				7AE1AB1523C91F200088B08F /* Model */,
 				7AE1AB1123C799F10088B08F /* ImageDetailView.swift */,
 				7AE1AB1323C8FD5F0088B08F /* AnnotationView.swift */,
+				7ADB115023D2347A00C81595 /* MainMenu.swift */,
 			);
 			path = ImageAnnotations;
 			sourceTree = "<group>";
@@ -176,6 +179,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7A4BBE0323C3E3DB0037C111 /* NSOpenPanel+Custom.swift in Sources */,
+				7ADB115123D2347A00C81595 /* MainMenu.swift in Sources */,
 				7AE1AB1423C8FD5F0088B08F /* AnnotationView.swift in Sources */,
 				7A4BBE0623C545650037C111 /* ImageAnnotationsView.swift in Sources */,
 				7AE1AB1923CE382D0088B08F /* ImageAnnotationViewModel.swift in Sources */,
