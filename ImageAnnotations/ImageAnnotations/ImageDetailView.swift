@@ -21,6 +21,16 @@ final class ImageDetailView: NSImageView {
     
     var annotation: AnnotationView?
     
+    private var originalSize: NSSize?
+    
+    override var image: NSImage? {
+        willSet {
+            if originalSize == nil {
+                originalSize = newValue?.size
+            }
+        }
+    }
+    
     override func mouseDown(with event: NSEvent) {
         super.mouseDown(with: event)
         iPoint = self.convert(event.locationInWindow, from: nil)
@@ -36,6 +46,13 @@ final class ImageDetailView: NSImageView {
     override func mouseUp(with event: NSEvent) {
         super.mouseUp(with: event)
         
+        let coordinate = Coordinate(x: self.iPoint.x, y: self.ePoint.y, width: self.ePoint.x-self.iPoint.x, height: self.iPoint.y-self.ePoint.y)
+        
+        translate(coordinate: coordinate)
+        
+        
+        
+        
         let alert: NSAlert = NSAlert()
         alert.messageText = "Adding annotation"
         alert.informativeText = "Add the title for the image annotation"
@@ -49,13 +66,10 @@ final class ImageDetailView: NSImageView {
             guard let self = self, let annotation = self.annotation else { return }
             switch modalResponse {
             case .alertFirstButtonReturn:
-                self.delegate?.addedAnnotation(name: "title", coordinate: Coordinate(x: self.iPoint.x,
-                                                                                y: self.ePoint.y,
-                                                                                width: self.ePoint.x-self.iPoint.x,
-                                                                                height: self.iPoint.y-self.ePoint.y))
+                self.delegate?.addedAnnotation(name: "title", coordinate: coordinate)
             
             case .alertSecondButtonReturn:
-                self.annotation?.removeFromSuperview()
+                annotation.removeFromSuperview()
                 self.iPoint = .zero
                 self.ePoint = .zero
             default: break
@@ -65,6 +79,19 @@ final class ImageDetailView: NSImageView {
     
     func renderAnnotation(_ coordinate: Coordinate) {
         addSubview(AnnotationView(frame: NSRect(x: coordinate.x, y: coordinate.y, width: coordinate.width, height: coordinate.height)))
+    }
+    
+    func translate(coordinate: Coordinate) {
+        guard let size = image?.size, let originalSize = originalSize else { return }
+        
+        print(size, originalSize,
+              size.height/originalSize.height,
+              size.width/originalSize.width,
+              originalSize.height/size.height,
+              originalSize.width/size.width)
+        
+        
+        
     }
     
 }

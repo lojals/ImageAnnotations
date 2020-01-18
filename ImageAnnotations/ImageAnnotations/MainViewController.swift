@@ -34,6 +34,7 @@ final class MainSplitViewController: NSSplitViewController {
         documentsTableView.delegate = viewModel
         documentsTableView.dataSource = viewModel
         viewModel.binder = self
+        imageDetailView.delegate = viewModel
     }
     
 }
@@ -68,7 +69,6 @@ extension MainSplitViewController: MenuProtocol {
 extension MainSplitViewController {
     
     private func setupUI() {
-        
         view.wantsLayer = true
         
         splitView.dividerStyle = .thick

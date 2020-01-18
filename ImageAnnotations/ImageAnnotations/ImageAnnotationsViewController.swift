@@ -50,13 +50,17 @@ final class ImageDetailViewController: NSViewController {
     
     private lazy var imageDetailView: ImageDetailView = .init()
     
-    var image: NSImage? {
+    var delegate: ImageDetailViewDelegate? {
         didSet {
-            imageDetailView.image = image
+            imageDetailView.delegate = delegate
         }
     }
     
     override func loadView() {
+        imageDetailView.imageScaling = .scaleProportionallyDown
+        imageDetailView.imageAlignment = .alignCenter
+        imageDetailView.imageFrameStyle = .photo
+        
         view = imageDetailView
         view.wantsLayer = true
     }
