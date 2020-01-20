@@ -94,7 +94,16 @@ extension MainSplitViewController {
 extension MainSplitViewController: NSOpenSavePanelDelegate {
 
     func panel(_ sender: Any, validate url: URL) throws {
-        viewModel.urls = (sender as? NSOpenPanel)?.urls ?? []
+        guard let urls = (sender as? NSOpenPanel)?.urls else { return }
+        var u: [Smt] = []
+        for url in urls {
+            if let data = try? Data(contentsOf: url), let image = NSImage(data: data) {
+                let component = Smt(url: url, filename: url.lastPathComponent, originalSize: image.size, image: image)
+                u.append(component)
+            }
+        }
+        
+        viewModel.urls = u
     }
 
 }

@@ -9,7 +9,7 @@
 import Cocoa
 
 protocol ImageDetailViewDelegate {
-    func addedAnnotation(name: String, coordinate: Coordinate)
+    func addedAnnotation(name: String, coordinate: Coordinate, relativeSize: NSSize)
 }
 
 final class ImageDetailView: NSImageView {
@@ -21,14 +21,16 @@ final class ImageDetailView: NSImageView {
     
     var annotation: AnnotationView?
     
-    private var originalSize: NSSize?
+    override init(frame frameRect: NSRect) {
+        super.init(frame: frameRect)
+        
+        imageScaling = .scaleProportionallyDown
+        imageAlignment = .alignCenter
+        imageFrameStyle = .photo
+    }
     
-    override var image: NSImage? {
-        willSet {
-            if originalSize == nil {
-                originalSize = newValue?.size
-            }
-        }
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     override func mouseDown(with event: NSEvent) {
@@ -48,11 +50,6 @@ final class ImageDetailView: NSImageView {
         
         let coordinate = Coordinate(x: self.iPoint.x, y: self.ePoint.y, width: self.ePoint.x-self.iPoint.x, height: self.iPoint.y-self.ePoint.y)
         
-        translate(coordinate: coordinate)
-        
-        
-        
-        
         let alert: NSAlert = NSAlert()
         alert.messageText = "Adding annotation"
         alert.informativeText = "Add the title for the image annotation"
@@ -66,7 +63,7 @@ final class ImageDetailView: NSImageView {
             guard let self = self, let annotation = self.annotation else { return }
             switch modalResponse {
             case .alertFirstButtonReturn:
-                self.delegate?.addedAnnotation(name: "title", coordinate: coordinate)
+                self.delegate?.addedAnnotation(name: "title", coordinate: coordinate, relativeSize: self.image!.size)
             
             case .alertSecondButtonReturn:
                 annotation.removeFromSuperview()
@@ -80,18 +77,4 @@ final class ImageDetailView: NSImageView {
     func renderAnnotation(_ coordinate: Coordinate) {
         addSubview(AnnotationView(frame: NSRect(x: coordinate.x, y: coordinate.y, width: coordinate.width, height: coordinate.height)))
     }
-    
-    func translate(coordinate: Coordinate) {
-        guard let size = image?.size, let originalSize = originalSize else { return }
-        
-        print(size, originalSize,
-              size.height/originalSize.height,
-              size.width/originalSize.width,
-              originalSize.height/size.height,
-              originalSize.width/size.width)
-        
-        
-        
-    }
-    
 }

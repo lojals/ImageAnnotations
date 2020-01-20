@@ -57,10 +57,6 @@ final class ImageDetailViewController: NSViewController {
     }
     
     override func loadView() {
-        imageDetailView.imageScaling = .scaleProportionallyDown
-        imageDetailView.imageAlignment = .alignCenter
-        imageDetailView.imageFrameStyle = .photo
-        
         view = imageDetailView
         view.wantsLayer = true
     }
@@ -79,7 +75,7 @@ extension ImageDetailViewController: ImageAnnotationsViewModelBinder {
     
     func bind(_ viewModel: ImageAnnotationsViewModelProtocol) {
         imageDetailView.subviews.forEach { $0.removeFromSuperview() }
-        imageDetailView.image = viewModel.currentImage
+        imageDetailView.image = viewModel.currentURL?.image
         
         for annotation in viewModel.currentAnnotations {
             imageDetailView.renderAnnotation(annotation.coordinate)

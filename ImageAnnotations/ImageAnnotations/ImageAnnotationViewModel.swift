@@ -12,44 +12,39 @@ protocol ImageAnnotationsViewModelBinder {
     func bind(_ viewModel: ImageAnnotationsViewModelProtocol)
 }
 
+struct Smt {
+    let url: URL
+    let filename: String
+    let originalSize: NSSize
+    let image: NSImage
+}
+
 protocol ImageAnnotationsViewModelProtocol: NSTableViewDataSource, NSTableViewDelegate {
     var annotations: [String: ImageAnnotation] { get  set }
-    var urls: [URL] { get set }
-    var currentImage: NSImage? { get }
+    var urls: [Smt] { get set }
     var currentAnnotations: [Annotation] { get }
-    var currentURL: URL? { get set }
+    var currentURL: Smt? { get set }
 }
 
 final class ImageAnnotationViewModel: NSObject, ImageAnnotationsViewModelProtocol {
     var binder: ImageAnnotationsViewModelBinder?
-
-    var currentImage: NSImage? {
-        guard  let currentURL = currentURL else { return nil }
-        do {
-            let data = try Data(contentsOf: currentURL)
-            return NSImage(data: data)
-        } catch {
-            return nil
-        }
-    }
-    
     var currentAnnotations: [Annotation] {
-        let imageName = currentURL?.lastPathComponent ?? ""
+        let imageName = currentURL?.filename ?? ""
         return annotations[imageName]?.annotations ?? []
     }
         
     var annotations: [String: ImageAnnotation] = [:]
     
-    var currentURL: URL?
+    var currentURL: Smt?
     
-    var urls: [URL] = [] {
+    var urls: [Smt] = [] {
         didSet {
             binder?.bind(self)
         }
     }
     
     func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
-        return NSCell(textCell: urls[row].lastPathComponent)
+        return NSCell(textCell: urls[row].filename)
     }
     
     func numberOfRows(in tableView: NSTableView) -> Int {
@@ -66,10 +61,12 @@ final class ImageAnnotationViewModel: NSObject, ImageAnnotationsViewModelProtoco
 
 extension ImageAnnotationViewModel: ImageDetailViewDelegate {
     
-    func addedAnnotation(name: String, coordinate: Coordinate) {
+    func addedAnnotation(name: String, coordinate: Coordinate, relativeSize: NSSize) {
         guard let currentURL = currentURL else { return }
         let annotation = Annotation(label: name, coordinate: coordinate)
-        annotations[currentURL.lastPathComponent, default: ImageAnnotation(image: currentURL.lastPathComponent, annotations: [])].annotations.append(annotation)
+        annotations[currentURL.filename, default: ImageAnnotation(image: currentURL.filename, annotations: [])].annotations.append(annotation)
+        
+        print(relativeSize.height/currentURL.originalSize.height, " - ", relativeSize.width/currentURL.originalSize.width)
     }
     
 }
