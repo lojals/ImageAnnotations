@@ -15,36 +15,35 @@ protocol ImageAnnotationsViewModelBinder {
 struct Smt {
     let url: URL
     let filename: String
-    let originalSize: NSSize
     let image: NSImage
 }
 
 protocol ImageAnnotationsViewModelProtocol: NSTableViewDataSource, NSTableViewDelegate {
     var annotations: [String: ImageAnnotation] { get  set }
-    var urls: [Smt] { get set }
+    var urls: [URL] { get set }
     var currentAnnotations: [Annotation] { get }
-    var currentURL: Smt? { get set }
+    var currentURL: URL? { get set }
 }
 
 final class ImageAnnotationViewModel: NSObject, ImageAnnotationsViewModelProtocol {
     var binder: ImageAnnotationsViewModelBinder?
     var currentAnnotations: [Annotation] {
-        let imageName = currentURL?.filename ?? ""
+        let imageName = currentURL?.lastPathComponent ?? ""
         return annotations[imageName]?.annotations ?? []
     }
         
     var annotations: [String: ImageAnnotation] = [:]
     
-    var currentURL: Smt?
+    var currentURL: URL?
     
-    var urls: [Smt] = [] {
+    var urls: [URL] = [] {
         didSet {
             binder?.bind(self)
         }
     }
     
     func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
-        return NSCell(textCell: urls[row].filename)
+        return NSCell(textCell: urls[row].lastPathComponent)
     }
     
     func numberOfRows(in tableView: NSTableView) -> Int {
@@ -64,9 +63,7 @@ extension ImageAnnotationViewModel: ImageDetailViewDelegate {
     func addedAnnotation(name: String, coordinate: Coordinate, relativeSize: NSSize) {
         guard let currentURL = currentURL else { return }
         let annotation = Annotation(label: name, coordinate: coordinate)
-        annotations[currentURL.filename, default: ImageAnnotation(image: currentURL.filename, annotations: [])].annotations.append(annotation)
-        
-        print(relativeSize.height/currentURL.originalSize.height, " - ", relativeSize.width/currentURL.originalSize.width)
+        annotations[currentURL.lastPathComponent, default: ImageAnnotation(image: currentURL.lastPathComponent, annotations: [])].annotations.append(annotation)
     }
     
 }

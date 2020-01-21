@@ -1,6 +1,6 @@
 //
 //  ViewController.swift
-//  ImageAnnotations
+//  ImagesTableViewController
 //
 //  Created by Jorge Ovalle on 06/01/20.
 //  Copyright © 2020 Jorge Ovalle. All rights reserved.
@@ -8,7 +8,7 @@
 
 import Cocoa
 
-final class TableView: NSViewController {
+final class ImagesTableViewController: NSViewController {
     
     var delegate: NSTableViewDelegate? {
         didSet {
@@ -46,24 +46,7 @@ final class TableView: NSViewController {
     
 }
 
-final class ImageDetailViewController: NSViewController {
-    
-    private lazy var imageDetailView: ImageDetailView = .init()
-    
-    var delegate: ImageDetailViewDelegate? {
-        didSet {
-            imageDetailView.delegate = delegate
-        }
-    }
-    
-    override func loadView() {
-        view = imageDetailView
-        view.wantsLayer = true
-    }
-    
-}
-
-extension TableView: ImageAnnotationsViewModelBinder {
+extension ImagesTableViewController: ImageAnnotationsViewModelBinder {
     
     func bind(_ viewModel: ImageAnnotationsViewModelProtocol) {
         imagesListView.reloadData()
@@ -71,15 +54,3 @@ extension TableView: ImageAnnotationsViewModelBinder {
     
 }
 
-extension ImageDetailViewController: ImageAnnotationsViewModelBinder {
-    
-    func bind(_ viewModel: ImageAnnotationsViewModelProtocol) {
-        imageDetailView.subviews.forEach { $0.removeFromSuperview() }
-        imageDetailView.image = viewModel.currentURL?.image
-        
-        for annotation in viewModel.currentAnnotations {
-            imageDetailView.renderAnnotation(annotation.coordinate)
-        }
-    }
-    
-}

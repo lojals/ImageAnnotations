@@ -12,7 +12,7 @@ final class MainSplitViewController: NSSplitViewController {
     
     private let splitViewResorationIdentifier = "com.company.restorationId:mainSplitViewController"
     
-    lazy var documentsTableView = TableView()
+    lazy var documentsTableView = ImagesTableViewController()
     lazy var imageDetailView = ImageDetailViewController()
     
     let viewModel = ImageAnnotationViewModel()
@@ -95,15 +95,7 @@ extension MainSplitViewController: NSOpenSavePanelDelegate {
 
     func panel(_ sender: Any, validate url: URL) throws {
         guard let urls = (sender as? NSOpenPanel)?.urls else { return }
-        var u: [Smt] = []
-        for url in urls {
-            if let data = try? Data(contentsOf: url), let image = NSImage(data: data) {
-                let component = Smt(url: url, filename: url.lastPathComponent, originalSize: image.size, image: image)
-                u.append(component)
-            }
-        }
-        
-        viewModel.urls = u
+        viewModel.urls = urls
     }
 
 }

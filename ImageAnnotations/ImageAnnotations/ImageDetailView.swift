@@ -21,18 +21,6 @@ final class ImageDetailView: NSImageView {
     
     var annotation: AnnotationView?
     
-    override init(frame frameRect: NSRect) {
-        super.init(frame: frameRect)
-        
-        imageScaling = .scaleProportionallyDown
-        imageAlignment = .alignCenter
-        imageFrameStyle = .photo
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     override func mouseDown(with event: NSEvent) {
         super.mouseDown(with: event)
         iPoint = self.convert(event.locationInWindow, from: nil)
