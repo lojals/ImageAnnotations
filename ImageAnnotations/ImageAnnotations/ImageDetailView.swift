@@ -51,7 +51,7 @@ final class ImageDetailView: NSImageView {
             guard let self = self, let annotation = self.annotation else { return }
             switch modalResponse {
             case .alertFirstButtonReturn:
-                self.delegate?.addedAnnotation(name: "title", coordinate: coordinate, relativeSize: self.image!.size)
+                self.delegate?.addedAnnotation(name: (alert.accessoryView as? NSTextField)?.stringValue ?? "", coordinate: coordinate, relativeSize: self.image!.size)
             
             case .alertSecondButtonReturn:
                 annotation.removeFromSuperview()

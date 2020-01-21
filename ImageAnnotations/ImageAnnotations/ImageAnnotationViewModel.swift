@@ -12,12 +12,6 @@ protocol ImageAnnotationsViewModelBinder {
     func bind(_ viewModel: ImageAnnotationsViewModelProtocol)
 }
 
-struct Smt {
-    let url: URL
-    let filename: String
-    let image: NSImage
-}
-
 protocol ImageAnnotationsViewModelProtocol: NSTableViewDataSource, NSTableViewDelegate {
     var annotations: [String: ImageAnnotation] { get  set }
     var urls: [URL] { get set }
@@ -43,9 +37,11 @@ final class ImageAnnotationViewModel: NSObject, ImageAnnotationsViewModelProtoco
     }
     
     func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
-        return NSCell(textCell: urls[row].lastPathComponent)
+        let cell = NSCell(textCell: urls[row].lastPathComponent)
+        cell.isEditable = false
+        return cell
     }
-    
+     
     func numberOfRows(in tableView: NSTableView) -> Int {
         return urls.count
     }
@@ -54,6 +50,37 @@ final class ImageAnnotationViewModel: NSObject, ImageAnnotationsViewModelProtoco
         currentURL = urls[row]
         binder?.bind(self)
         return true
+    }
+    
+    func export(path: URL) {
+        let manager = FileManager.default
+        
+        let directoryName = "test_directory"
+        
+        
+        
+        let newURL = path.appendingPathComponent(directoryName)
+        do {
+            try manager.createDirectory(at: newURL, withIntermediateDirectories: true, attributes: nil)
+            let file = "\(directoryName)/result.json"
+            let fileURL = path.appendingPathComponent(file)
+            let encoder  = JSONEncoder()
+            encoder.outputFormatting = .prettyPrinted
+            
+            let imageAnnotations = annotations.values.map { $0 }
+            try? encoder.encode(imageAnnotations).write(to: fileURL)
+            
+            for imageURL in urls {
+                guard let data = try? Data(contentsOf: imageURL),
+                let image = NSImage(data: data) else { return }
+                
+                let pathExp = imageURL.deletingPathExtension()
+                let imageURL = path.appendingPathComponent("\(directoryName)/\(pathExp.lastPathComponent).jpg")
+                image.writeimge(to: imageURL)
+            }
+        } catch(_) {
+            
+        }
     }
     
 }
@@ -68,24 +95,21 @@ extension ImageAnnotationViewModel: ImageDetailViewDelegate {
     
 }
 
-
-//                let img = ImageAnnotation(image: "img1.png", annotations: [Annotation(label: "label1", coordinate: Coordinate(x: annotation.frame.origin.x, y: annotation.frame.origin.y, width: annotation.frame.width, height: annotation.frame.height))])
-//                let file = "result.json"
-//                if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
-//                    let fileURL = dir.appendingPathComponent(file)
-//                    let encoder  = JSONEncoder()
-//                    encoder.outputFormatting = .prettyPrinted
-//                    try? encoder.encode(img).write(to: fileURL)
-//                }
-
-
-//
-//let popUp = NSPopover()
-//popUp.contentSize = CGSize(width: 50, height: 50)
-//popUp.behavior = .transient
-//
-//popUp.appearance = NSAppearance(named: .darkAqua)
-//popUp.animates = true
-//popUp.contentViewController = self
-//
-//popUp.show(relativeTo: view.bounds, of: self.view, preferredEdge: NSRectEdge.minY)
+extension NSImage {
+    
+    var jpgData: Data? {
+        guard let tiffRepresentation = tiffRepresentation, let bitmapImage = NSBitmapImageRep(data: tiffRepresentation) else { return nil }
+        return bitmapImage.representation(using: .jpeg, properties: [:])
+    }
+    
+    @discardableResult func writeimge(to url: URL, options: Data.WritingOptions = .atomic) -> Bool {
+        do {
+            try jpgData?.write(to: url, options: options)
+            return true
+        } catch {
+            print(error)
+            return false
+        }
+    }
+    
+}

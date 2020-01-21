@@ -56,12 +56,21 @@ extension MainSplitViewController: MenuProtocol {
     
     func selectImages(sender: AnyObject) {
         let dialog = NSOpenPanel.make()
+        dialog.identifier = .openPanel
         dialog.delegate = self
         dialog.runModal()
     }
     
     func export(sender: AnyObject) {
-        print("export")
+        let savePanel = NSOpenPanel()
+        savePanel.identifier = .savePanel
+        savePanel.canCreateDirectories = true
+        savePanel.canChooseFiles = false
+        savePanel.canChooseDirectories = true
+        savePanel.allowsMultipleSelection = false
+        savePanel.delegate = self
+        savePanel.titleVisibility  = .hidden
+        savePanel.runModal()
     }
 
 }
@@ -94,8 +103,19 @@ extension MainSplitViewController {
 extension MainSplitViewController: NSOpenSavePanelDelegate {
 
     func panel(_ sender: Any, validate url: URL) throws {
-        guard let urls = (sender as? NSOpenPanel)?.urls else { return }
-        viewModel.urls = urls
+        guard let panel = (sender as? NSOpenPanel), let identifier = panel.identifier else { return }
+        switch identifier {
+        case .openPanel:
+            viewModel.urls = panel.urls
+        case .savePanel:
+            panel.directoryURL.flatMap { viewModel.export(path: $0) }
+        default: break
+        }
     }
 
+}
+
+extension NSUserInterfaceItemIdentifier {
+    static let savePanel = NSUserInterfaceItemIdentifier(rawValue: "savePanel")
+    static let openPanel = NSUserInterfaceItemIdentifier(rawValue: "openPanel")
 }
