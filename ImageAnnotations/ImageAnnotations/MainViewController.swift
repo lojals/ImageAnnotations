@@ -106,7 +106,7 @@ extension MainSplitViewController: NSOpenSavePanelDelegate {
         guard let panel = (sender as? NSOpenPanel), let identifier = panel.identifier else { return }
         switch identifier {
         case .openPanel:
-            viewModel.urls = panel.urls
+            viewModel.dataSet = AnnotationDataSet(urls: panel.urls)
         case .savePanel:
             panel.directoryURL.flatMap { viewModel.export(path: $0) }
         default: break

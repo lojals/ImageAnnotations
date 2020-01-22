@@ -6,11 +6,31 @@
 //  Copyright © 2020 Jorge Ovalle. All rights reserved.
 //
 
-import Foundation
+import Cocoa
 
 struct ImageAnnotation: Encodable {
-    let image: String
+    
+    var imageName: String {
+        url?.lastPathComponent ?? ""
+    }
+    
     var annotations: [Annotation]
+    
+    var url: URL?
+    
+    var image: NSImage? {
+        guard let currentURL = url,
+        let data = try? Data(contentsOf: currentURL),
+        let image = NSImage(data: data) else { return nil }
+        return image
+    }
+    
+    init(url: URL? = nil, annotations: [Annotation] = []) {
+        self.annotations = annotations
+        self.url = url
+    }
+    
+    static let `default` = ImageAnnotation()
 }
 
 struct Annotation: Encodable {

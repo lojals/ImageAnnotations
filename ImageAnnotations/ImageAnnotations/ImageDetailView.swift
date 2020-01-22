@@ -35,14 +35,7 @@ final class ImageDetailView: NSImageView {
     
     override func mouseUp(with event: NSEvent) {
         super.mouseUp(with: event)
-        guard let annotation = annotation, annotation.frame > CGRect.zero else {
-            return
-        }
-        
-        let coordinate = Coordinate(rect: annotation.frame)
-        
-        print(coordinate, annotation.frame)
-        
+    
         let alert: NSAlert = NSAlert()
         alert.messageText = "Adding annotation"
         alert.informativeText = "Add the title for the image annotation"
@@ -51,12 +44,13 @@ final class ImageDetailView: NSImageView {
         alert.accessoryView = NSTextField(frame: NSRect(x: 0, y: 0, width: 100, height: 20))
         alert.addButton(withTitle: "Ok")
         alert.addButton(withTitle: "Cancel")
-        
         alert.beginSheetModal(for: self.window!, completionHandler: { [weak self] modalResponse in
             guard let self = self, let annotation = self.annotation else { return }
             switch modalResponse {
             case .alertFirstButtonReturn:
-                self.delegate?.addedAnnotation(name: (alert.accessoryView as? NSTextField)?.stringValue ?? "", coordinate: coordinate, relativeSize: self.image!.size)
+                self.delegate?.addedAnnotation(name: (alert.accessoryView as? NSTextField)?.stringValue ?? "",
+                                               coordinate: Coordinate(rect: annotation.frame),
+                                               relativeSize: self.image!.size)
             
             case .alertSecondButtonReturn:
                 annotation.removeFromSuperview()

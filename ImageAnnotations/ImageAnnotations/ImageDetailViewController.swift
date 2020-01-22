@@ -21,7 +21,6 @@ final class ImageDetailViewController: NSViewController {
     private let scrollView = NSScrollView()
     
     override func loadView() {
-        
         scrollView.hasHorizontalScroller = true
         scrollView.borderType = .lineBorder
         scrollView.hasVerticalScroller = true
@@ -37,16 +36,14 @@ extension ImageDetailViewController: ImageAnnotationsViewModelBinder {
     func bind(_ viewModel: ImageAnnotationsViewModelProtocol) {
         imageDetailView.subviews.forEach { $0.removeFromSuperview() }
         
-        guard let currentURL = viewModel.currentURL,
-            let data = try? Data(contentsOf: currentURL),
-            let image = NSImage(data: data) else { return }
+        guard let currentImage = viewModel.current.image else { return }
         
-        imageDetailView.image = image
+        imageDetailView.image = currentImage
         
-        scrollView.setFrameSize(image.size)
-        imageDetailView.setFrameSize(image.size)
+        scrollView.setFrameSize(currentImage.size)
+        imageDetailView.setFrameSize(currentImage.size)
         
-        for annotation in viewModel.currentAnnotations {
+        for annotation in viewModel.current.annotations {
             imageDetailView.renderAnnotation(annotation.coordinate)
         }
     }

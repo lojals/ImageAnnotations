@@ -9,10 +9,8 @@
 import Cocoa
 
 extension NSImage {
-    
     var jpgData: Data? {
         guard let tiffRepresentation = tiffRepresentation, let bitmapImage = NSBitmapImageRep(data: tiffRepresentation) else { return nil }
         return bitmapImage.representation(using: .jpeg, properties: [:])
     }
-    
 }
