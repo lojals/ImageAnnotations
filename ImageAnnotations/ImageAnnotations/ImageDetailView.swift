@@ -9,7 +9,7 @@
 import Cocoa
 
 protocol ImageDetailViewDelegate {
-    func addedAnnotation(name: String, coordinate: NSRect, relativeSize: NSSize)
+    func addedAnnotation(name: String, coordinate: Coordinate, relativeSize: NSSize)
 }
 
 final class ImageDetailView: NSImageView {
@@ -35,8 +35,13 @@ final class ImageDetailView: NSImageView {
     
     override func mouseUp(with event: NSEvent) {
         super.mouseUp(with: event)
+        guard let annotation = annotation, annotation.frame > CGRect.zero else {
+            return
+        }
         
-        let coordinate = NSRect(x: self.iPoint.x, y: self.ePoint.y, width: self.ePoint.x-self.iPoint.x, height: self.iPoint.y-self.ePoint.y)
+        let coordinate = Coordinate(rect: annotation.frame)
+        
+        print(coordinate, annotation.frame)
         
         let alert: NSAlert = NSAlert()
         alert.messageText = "Adding annotation"
@@ -62,7 +67,7 @@ final class ImageDetailView: NSImageView {
         })
     }
     
-    func renderAnnotation(_ coordinate: NSRect) {
-        addSubview(AnnotationView(frame: coordinate))
+    func renderAnnotation(_ coordinate: Coordinate) {
+        addSubview(AnnotationView(frame: coordinate.rect))
     }
 }
