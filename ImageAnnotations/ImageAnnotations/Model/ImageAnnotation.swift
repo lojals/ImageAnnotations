@@ -15,12 +15,5 @@ struct ImageAnnotation: Encodable {
 
 struct Annotation: Encodable {
     let label: String
-    let coordinate: Coordinate
-}
-
-struct Coordinate: Encodable {
-    let x: CGFloat
-    let y: CGFloat
-    let width: CGFloat
-    let height: CGFloat
+    let coordinate: NSRect
 }

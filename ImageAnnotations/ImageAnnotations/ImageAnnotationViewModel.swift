@@ -61,7 +61,7 @@ final class ImageAnnotationViewModel: NSObject, ImageAnnotationsViewModelProtoco
 
 extension ImageAnnotationViewModel: ImageDetailViewDelegate {
     
-    func addedAnnotation(name: String, coordinate: Coordinate, relativeSize: NSSize) {
+    func addedAnnotation(name: String, coordinate: NSRect, relativeSize: NSSize) {
         guard let currentURL = currentURL else { return }
         let annotation = Annotation(label: name, coordinate: coordinate)
         annotations[currentURL.lastPathComponent, default: ImageAnnotation(image: currentURL.lastPathComponent, annotations: [])].annotations.append(annotation)
