@@ -16,13 +16,3 @@ extension NSImage {
     }
     
 }
-
-extension CGRect: Comparable {
-    public static func < (lhs: CGRect, rhs: CGRect) -> Bool {
-        return (lhs.width * lhs.height) < (lhs.height * lhs.width)
-    }
-    
-    public static func > (lhs: CGRect, rhs: CGRect) -> Bool {
-        return (lhs.width * lhs.height) > (lhs.height * lhs.width)
-    }
-}
