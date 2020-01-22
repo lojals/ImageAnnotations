@@ -68,22 +68,3 @@ extension ImageAnnotationViewModel: ImageDetailViewDelegate {
     }
     
 }
-
-extension NSImage {
-    
-    var jpgData: Data? {
-        guard let tiffRepresentation = tiffRepresentation, let bitmapImage = NSBitmapImageRep(data: tiffRepresentation) else { return nil }
-        return bitmapImage.representation(using: .jpeg, properties: [:])
-    }
-    
-    @discardableResult func writeimge(to url: URL, options: Data.WritingOptions = .atomic) -> Bool {
-        do {
-            try jpgData?.write(to: url, options: options)
-            return true
-        } catch {
-            print(error)
-            return false
-        }
-    }
-    
-}

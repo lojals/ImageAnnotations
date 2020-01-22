@@ -28,14 +28,16 @@ struct AppFileManager {
             for imageURL in urls {
                 guard let data = try? Data(contentsOf: imageURL),
                 let image = NSImage(data: data) else { return }
-                
                 let pathExp = imageURL.deletingPathExtension()
                 let imageURL = path.appendingPathComponent("\(directoryName)/\(pathExp.lastPathComponent).jpg")
-                image.writeimge(to: imageURL)
+                try writeimge(image, to: imageURL)
             }
-        } catch(_) {
-            
+        } catch (let error) {
+            print(error)
         }
     }
+    
+    func writeimge(_ image: NSImage, to url: URL, options: Data.WritingOptions = .atomic) throws {
+        try image.jpgData?.write(to: url, options: options)
+    }
 }
-
