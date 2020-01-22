@@ -53,36 +53,10 @@ final class ImageAnnotationViewModel: NSObject, ImageAnnotationsViewModelProtoco
     }
     
     func export(path: URL) {
-        let manager = FileManager.default
-        
-        let directoryName = "test_directory"
-        
-        
-        
-        let newURL = path.appendingPathComponent(directoryName)
-        do {
-            try manager.createDirectory(at: newURL, withIntermediateDirectories: true, attributes: nil)
-            let file = "\(directoryName)/result.json"
-            let fileURL = path.appendingPathComponent(file)
-            let encoder  = JSONEncoder()
-            encoder.outputFormatting = .prettyPrinted
-            
-            let imageAnnotations = annotations.values.map { $0 }
-            try? encoder.encode(imageAnnotations).write(to: fileURL)
-            
-            for imageURL in urls {
-                guard let data = try? Data(contentsOf: imageURL),
-                let image = NSImage(data: data) else { return }
-                
-                let pathExp = imageURL.deletingPathExtension()
-                let imageURL = path.appendingPathComponent("\(directoryName)/\(pathExp.lastPathComponent).jpg")
-                image.writeimge(to: imageURL)
-            }
-        } catch(_) {
-            
-        }
+        let appFileManager = AppFileManager()
+        let imageAnnotations = annotations.values.map { $0 }
+        appFileManager.export(annotations: imageAnnotations, urls: urls, path: path)
     }
-    
 }
 
 extension ImageAnnotationViewModel: ImageDetailViewDelegate {
