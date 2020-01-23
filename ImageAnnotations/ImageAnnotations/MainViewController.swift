@@ -8,9 +8,7 @@
 
 import Cocoa
 
-final class MainSplitViewController: NSSplitViewController {
-    
-    private let splitViewResorationIdentifier = "com.company.restorationId:mainSplitViewController"
+final class MainViewController: NSSplitViewController {
     
     private lazy var documentsTableView = ImagesTableViewController()
     private lazy var imageDetailView = ImageDetailViewController()
@@ -41,7 +39,7 @@ final class MainSplitViewController: NSSplitViewController {
     }
 }
 
-extension MainSplitViewController: NSTableViewDataSource {
+extension MainViewController: NSTableViewDataSource {
     
     func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
         let imageAnnotation = viewModel.imageAnotation(for: row)
@@ -55,7 +53,7 @@ extension MainSplitViewController: NSTableViewDataSource {
     }
 }
 
-extension MainSplitViewController: NSTableViewDelegate {
+extension MainViewController: NSTableViewDelegate {
     
     func tableView(_ tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
         viewModel.selectedRow(at: row)
@@ -64,7 +62,7 @@ extension MainSplitViewController: NSTableViewDelegate {
     
 }
 
-extension MainSplitViewController: ImageAnnotationsViewModelBinder {
+extension MainViewController: ImageAnnotationsViewModelBinder {
     
     func bind(_ viewModel: ImageAnnotationsViewModelProtocol) {
         documentsTableView.bind(viewModel)
@@ -73,7 +71,7 @@ extension MainSplitViewController: ImageAnnotationsViewModelBinder {
     
 }
 
-extension MainSplitViewController: MenuProtocol {
+extension MainViewController: MenuProtocol {
     
     func quit(sender: AnyObject) {
         NSApp.terminate(self)
@@ -100,14 +98,15 @@ extension MainSplitViewController: MenuProtocol {
 
 }
 
-extension MainSplitViewController {
+extension MainViewController {
     
     private func setupUI() {
         view.wantsLayer = true
         
+        let identifier = String(describing: self)
         splitView.dividerStyle = .thick
-        splitView.autosaveName = splitViewResorationIdentifier
-        splitView.identifier = NSUserInterfaceItemIdentifier(rawValue: splitViewResorationIdentifier)
+        splitView.autosaveName = identifier
+        splitView.identifier = NSUserInterfaceItemIdentifier(rawValue: identifier)
         
         documentsTableView.view.widthAnchor.constraint(greaterThanOrEqualToConstant: 200).isActive = true
         imageDetailView.view.widthAnchor.constraint(greaterThanOrEqualToConstant: 100).isActive = true
@@ -125,7 +124,7 @@ extension MainSplitViewController {
     }
 }
 
-extension MainSplitViewController: NSOpenSavePanelDelegate {
+extension MainViewController: NSOpenSavePanelDelegate {
 
     func panel(_ sender: Any, validate url: URL) throws {
         guard let panel = (sender as? NSOpenPanel), let identifier = panel.identifier else { return }
@@ -133,7 +132,7 @@ extension MainSplitViewController: NSOpenSavePanelDelegate {
         case .openPanel:
             viewModel.dataSet = AnnotationDataSet(urls: panel.urls)
         case .savePanel:
-            panel.directoryURL.flatMap { viewModel.export(path: $0) }
+            panel.directoryURL.flatMap { viewModel.export(at: $0) }
         default: break
         }
     }

@@ -8,16 +8,16 @@
 
 import Foundation
 
-protocol ImageAnnotationsViewModelBinder {
+protocol ImageAnnotationsViewModelBinder: AnyObject {
     func bind(_ viewModel: ImageAnnotationsViewModelProtocol)
 }
 
-protocol ImageAnnotationsViewModelProtocol:  AnyObject, ImageDetailViewDelegate {
+protocol ImageAnnotationsViewModelProtocol: ImageDetailViewDelegate {
     var binder: ImageAnnotationsViewModelBinder? { get set }
     var dataSet: AnnotationDataSet { get set }
     var current: ImageAnnotation { get set }
     
-    func export(path: URL)
+    func export(at path: URL)
     
     func imageAnotation(for row: Int) -> ImageAnnotation
     func numberOfRows() -> Int
@@ -26,7 +26,7 @@ protocol ImageAnnotationsViewModelProtocol:  AnyObject, ImageDetailViewDelegate 
 
 final class ImageAnnotationViewModel: NSObject, ImageAnnotationsViewModelProtocol {
    
-    var binder: ImageAnnotationsViewModelBinder?
+    weak var binder: ImageAnnotationsViewModelBinder?
     
     var current: ImageAnnotation = .default {
         didSet {
@@ -48,9 +48,8 @@ final class ImageAnnotationViewModel: NSObject, ImageAnnotationsViewModelProtoco
         return dataSet[row]
     }
     
-    func export(path: URL) {
-        let appFileManager = AppFileManager()
-        appFileManager.export(annotations: dataSet.annotations, path: path)
+    func export(at path: URL) {
+        AppFileManager().export(annotations: dataSet.annotations, path: path)
     }
     
     func selectedRow(at index: Int) {
@@ -59,6 +58,31 @@ final class ImageAnnotationViewModel: NSObject, ImageAnnotationsViewModelProtoco
 }
 
 extension ImageAnnotationViewModel: ImageDetailViewDelegate {
+    
+    func willAddAnnotation() {
+//        let alert: NSAlert = NSAlert()
+//        alert.messageText = "Adding annotation"
+//        alert.informativeText = "Add the title for the image annotation"
+//        alert.alertStyle = NSAlert.Style.informational
+//
+//        alert.accessoryView = NSTextField(frame: NSRect(x: 0, y: 0, width: 100, height: 20))
+//        alert.addButton(withTitle: "Ok")
+//        alert.addButton(withTitle: "Cancel")
+//        alert.beginSheetModal(for: self.window!, completionHandler: { [weak self] modalResponse in
+//            guard let self = self, let annotation = self.annotation else { return }
+//            switch modalResponse {
+//            case .alertFirstButtonReturn:
+//                self.delegate?.addedAnnotation(name: (alert.accessoryView as? NSTextField)?.stringValue ?? "",
+//                                               coordinate: Coordinate(rect: annotation.frame))
+//
+//            case .alertSecondButtonReturn:
+//                annotation.removeFromSuperview()
+//                self.iPoint = .zero
+//                self.ePoint = .zero
+//            default: break
+//            }
+//        })
+    }
     
     func addedAnnotation(name: String, coordinate: Coordinate) {
         let annotation = Annotation(label: name, coordinate: coordinate)

@@ -12,7 +12,7 @@ final class ImageDetailViewController: NSViewController {
     
     private lazy var imageDetailView: ImageDetailView = .init()
     
-    var delegate: ImageDetailViewDelegate? {
+    weak var delegate: ImageDetailViewDelegate? {
         didSet {
             imageDetailView.delegate = delegate
         }
@@ -39,7 +39,6 @@ extension ImageDetailViewController: ImageAnnotationsViewModelBinder {
         guard let currentImage = viewModel.current.image else { return }
         
         imageDetailView.image = currentImage
-        
         scrollView.setFrameSize(currentImage.size)
         imageDetailView.setFrameSize(currentImage.size)
         

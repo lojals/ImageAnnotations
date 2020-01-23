@@ -33,7 +33,11 @@ struct ImageAnnotation {
     
     // TODO: translate position of the annotation to the needed coordinate type.
     func translate() -> [Annotation] {
-        return annotations
+        var translatedAnnotations: [Annotation] = []
+        for annotation in annotations {
+            translatedAnnotations.append(annotation)
+        }
+        return translatedAnnotations
     }
 
 }

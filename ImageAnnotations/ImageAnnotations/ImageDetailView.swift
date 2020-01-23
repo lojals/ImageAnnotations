@@ -8,8 +8,9 @@
 
 import Cocoa
 
-protocol ImageDetailViewDelegate {
+protocol ImageDetailViewDelegate: AnyObject {
     func addedAnnotation(name: String, coordinate: Coordinate)
+    func willAddAnnotation()
 }
 
 final class ImageDetailView: NSImageView {
@@ -35,29 +36,7 @@ final class ImageDetailView: NSImageView {
     
     override func mouseUp(with event: NSEvent) {
         super.mouseUp(with: event)
-    
-        let alert: NSAlert = NSAlert()
-        alert.messageText = "Adding annotation"
-        alert.informativeText = "Add the title for the image annotation"
-        alert.alertStyle = NSAlert.Style.informational
-        
-        alert.accessoryView = NSTextField(frame: NSRect(x: 0, y: 0, width: 100, height: 20))
-        alert.addButton(withTitle: "Ok")
-        alert.addButton(withTitle: "Cancel")
-        alert.beginSheetModal(for: self.window!, completionHandler: { [weak self] modalResponse in
-            guard let self = self, let annotation = self.annotation else { return }
-            switch modalResponse {
-            case .alertFirstButtonReturn:
-                self.delegate?.addedAnnotation(name: (alert.accessoryView as? NSTextField)?.stringValue ?? "",
-                                               coordinate: Coordinate(rect: annotation.frame))
-            
-            case .alertSecondButtonReturn:
-                annotation.removeFromSuperview()
-                self.iPoint = .zero
-                self.ePoint = .zero
-            default: break
-            }
-        })
+        delegate?.willAddAnnotation()
     }
     
     func renderAnnotation(_ coordinate: Coordinate) {
