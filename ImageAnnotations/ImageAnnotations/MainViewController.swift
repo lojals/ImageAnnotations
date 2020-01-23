@@ -107,6 +107,23 @@ extension NSUserInterfaceItemIdentifier {
 extension MainViewController: ImageDetailViewDelegate {
     
     func willAddAnnotation(coordinate: Coordinate) {
-        
+        let alert: NSAlert = NSAlert()
+        alert.messageText = "Adding annotation"
+        alert.informativeText = "Add the title for the image annotation"
+        alert.alertStyle = NSAlert.Style.informational
+
+        alert.accessoryView = NSTextField(frame: NSRect(x: 0, y: 0, width: 100, height: 20))
+        alert.addButton(withTitle: "Ok")
+        alert.addButton(withTitle: "Cancel")
+        alert.beginSheetModal(for: view.window!, completionHandler: { [weak self] modalResponse in
+            guard let self = self else { return }
+            switch modalResponse {
+            case .alertFirstButtonReturn:
+                self.viewModel.addAnnotation(with: "", at: coordinate)
+            case .alertSecondButtonReturn:
+                self.imageDetailView.removeLastAnnotation()
+            default: break
+            }
+        })
     }
 }

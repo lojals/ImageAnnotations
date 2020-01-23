@@ -46,5 +46,9 @@ extension ImageDetailViewController: ImageAnnotationsViewModelBinder {
             imageDetailView.renderAnnotation(annotation.coordinate)
         }
     }
+
+    func removeLastAnnotation() {
+        imageDetailView.removeLastAnnotation()
+    }
     
 }

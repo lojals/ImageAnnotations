@@ -35,10 +35,16 @@ final class ImageDetailView: NSImageView {
     
     override func mouseUp(with event: NSEvent) {
         super.mouseUp(with: event)
-        delegate?.willAddAnnotation()
+        delegate?.willAddAnnotation(coordinate: Coordinate(rect: annotation?.frame ?? .zero))
     }
     
     func renderAnnotation(_ coordinate: Coordinate) {
         addSubview(AnnotationView(frame: coordinate.rect))
+    }
+    
+    func removeLastAnnotation() {
+        iPoint = .zero
+        ePoint = .zero
+        annotation?.removeFromSuperview()
     }
 }

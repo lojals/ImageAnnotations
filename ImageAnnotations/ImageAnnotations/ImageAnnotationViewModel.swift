@@ -22,6 +22,8 @@ protocol ImageAnnotationsViewModelProtocol: AnyObject {
     func imageAnotation(for row: Int) -> ImageAnnotation
     func numberOfRows() -> Int
     func selectedRow(at index: Int)
+    
+    func addAnnotation(with name: String, at coordinate: Coordinate)
 }
 
 final class ImageAnnotationViewModel: ImageAnnotationsViewModelProtocol {
@@ -54,5 +56,10 @@ final class ImageAnnotationViewModel: ImageAnnotationsViewModelProtocol {
     
     func selectedRow(at index: Int) {
         current = dataSet[index]
+    }
+    
+    func addAnnotation(with name: String, at coordinate: Coordinate) {
+        let annotation = Annotation(label: name, coordinate: coordinate)
+        current = dataSet.addAnnotation(annotation: annotation, to: current)
     }
 }
