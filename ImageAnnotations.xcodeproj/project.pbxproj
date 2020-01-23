@@ -110,15 +110,17 @@
 		7A4BBDF023C3A3FE0037C111 /* ImageAnnotations */ = {
 			isa = PBXGroup;
 			children = (
-				7A4BBDF123C3A3FE0037C111 /* AppDelegate.swift */,
-				7ADB117323DA010000C81595 /* Coordinators */,
-				7ADB115623D7CBDB00C81595 /* Helpers */,
-				7A4BBE0123C3E2600037C111 /* Extensions */,
-				7A4BBE0423C545460037C111 /* ImageAnnotations */,
-				7A4BBDF523C3A4010037C111 /* Assets.xcassets */,
-				7A4BBDF723C3A4010037C111 /* Main.storyboard */,
-				7A4BBDFA23C3A4010037C111 /* Info.plist */,
 				7A4BBDFB23C3A4010037C111 /* ImageAnnotations.entitlements */,
+				7A4BBDFA23C3A4010037C111 /* Info.plist */,
+				7A4BBDF123C3A3FE0037C111 /* AppDelegate.swift */,
+				7A4BBDF723C3A4010037C111 /* Main.storyboard */,
+				7A4BBDF523C3A4010037C111 /* Assets.xcassets */,
+				7ADB117323DA010000C81595 /* Coordinators */,
+				7A4BBE0123C3E2600037C111 /* Extensions */,
+				7ADB115623D7CBDB00C81595 /* Helpers */,
+				7AE1AB1523C91F200088B08F /* Model */,
+				7A4BBE0423C545460037C111 /* ViewControllers */,
+				7ADB117C23DA5ABD00C81595 /* Views */,
 			);
 			path = ImageAnnotations;
 			sourceTree = "<group>";
@@ -133,20 +135,15 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
-		7A4BBE0423C545460037C111 /* ImageAnnotations */ = {
+		7A4BBE0423C545460037C111 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
 				7ADB115223D252E600C81595 /* MainViewController.swift */,
 				7ADB115423D673E000C81595 /* ImageDetailViewController.swift */,
 				7A4BBDF323C3A3FE0037C111 /* ImagesTableViewController.swift */,
 				7AE1AB1823CE382D0088B08F /* ImageAnnotationViewModel.swift */,
-				7AE1AB1523C91F200088B08F /* Model */,
-				7AE1AB1123C799F10088B08F /* ImageDetailView.swift */,
-				7AE1AB1323C8FD5F0088B08F /* AnnotationView.swift */,
-				7ADB115023D2347A00C81595 /* MainMenu.swift */,
-				7ADB116D23D8FB7200C81595 /* AnnotationDataSet.swift */,
 			);
-			path = ImageAnnotations;
+			path = ViewControllers;
 			sourceTree = "<group>";
 		};
 		7ADB115623D7CBDB00C81595 /* Helpers */ = {
@@ -176,9 +173,20 @@
 			path = Coordinators;
 			sourceTree = "<group>";
 		};
+		7ADB117C23DA5ABD00C81595 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				7AE1AB1123C799F10088B08F /* ImageDetailView.swift */,
+				7AE1AB1323C8FD5F0088B08F /* AnnotationView.swift */,
+				7ADB115023D2347A00C81595 /* MainMenu.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		7AE1AB1523C91F200088B08F /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				7ADB116D23D8FB7200C81595 /* AnnotationDataSet.swift */,
 				7AE1AB1623C91F420088B08F /* ImageAnnotation.swift */,
 				7ADB116F23D904C100C81595 /* Annotation.swift */,
 				7ADB117123D904DF00C81595 /* Coordinate.swift */,

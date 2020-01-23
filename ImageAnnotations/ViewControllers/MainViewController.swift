@@ -112,18 +112,19 @@ extension MainViewController: ImageDetailViewDelegate {
         alert.informativeText = "Add the title for the image annotation"
         alert.alertStyle = NSAlert.Style.informational
 
-        alert.accessoryView = NSTextField(frame: NSRect(x: 0, y: 0, width: 100, height: 20))
+        let textField = NSTextField(frame: NSRect(x: 0, y: 0, width: 100, height: 20))
+        alert.accessoryView = textField
         alert.addButton(withTitle: "Ok")
         alert.addButton(withTitle: "Cancel")
-        alert.beginSheetModal(for: view.window!, completionHandler: { [weak self] modalResponse in
+        alert.beginSheetModal(for: view.window!) { [weak self] modalResponse in
             guard let self = self else { return }
             switch modalResponse {
             case .alertFirstButtonReturn:
-                self.viewModel.addAnnotation(with: "", at: coordinate)
+                self.viewModel.addAnnotation(with: textField.stringValue, at: coordinate)
             case .alertSecondButtonReturn:
                 self.imageDetailView.removeLastAnnotation()
             default: break
             }
-        })
+        }
     }
 }
