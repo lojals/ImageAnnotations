@@ -21,18 +21,29 @@ final class MainViewCoordinator: Coordinator {
     }
 }
 
-extension MainViewCoordinator: MenuProtocol {
+extension MainViewCoordinator: MenuDelegate {
     
     func quit(sender: AnyObject) {
-        print(#function)
+        NSApp.terminate(self)
     }
     
     func selectImages(sender: AnyObject) {
-        print(#function)
+        let dialog = NSOpenPanel.make()
+        dialog.identifier = .openPanel
+        dialog.delegate = presenter
+        dialog.runModal()
     }
     
     func export(sender: AnyObject) {
-        print(#function)
+        let savePanel = NSOpenPanel()
+        savePanel.identifier = .savePanel
+        savePanel.canCreateDirectories = true
+        savePanel.canChooseFiles = false
+        savePanel.canChooseDirectories = true
+        savePanel.allowsMultipleSelection = false
+        savePanel.delegate = presenter
+        savePanel.titleVisibility  = .hidden
+        savePanel.runModal()
     }
-
+    
 }

@@ -9,8 +9,7 @@
 import Cocoa
 
 protocol ImageDetailViewDelegate: AnyObject {
-    func addedAnnotation(name: String, coordinate: Coordinate)
-    func willAddAnnotation()
+    func willAddAnnotation(coordinate: Coordinate)
 }
 
 final class ImageDetailView: NSImageView {

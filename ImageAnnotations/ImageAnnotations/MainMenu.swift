@@ -9,7 +9,7 @@
 import Foundation
 import Cocoa
 
-@objc protocol MenuProtocol: AnyObject {
+@objc protocol MenuDelegate: AnyObject {
     func quit(sender: AnyObject)
     func selectImages(sender: AnyObject)
     func export(sender: AnyObject)
@@ -18,27 +18,21 @@ import Cocoa
 final class MainMenu: NSMenu {
     
     private lazy var quit = NSMenuItem(title: "Quit",
-                                       action: #selector(self.delegatee?.quit(sender:)),
+                                       action: #selector(MenuDelegate.quit(sender:)),
                                        keyEquivalent: "q")
     
     private lazy var selectImages = NSMenuItem(title: "Select Images...",
-                                               action: #selector(self.delegatee?.selectImages(sender:)),
+                                               action: #selector(MenuDelegate.selectImages(sender:)),
                                                keyEquivalent: "o")
     
     private lazy var export = NSMenuItem(title: "Export",
-                                         action: #selector(self.delegatee?.export(sender:)),
+                                         action: #selector(MenuDelegate.export(sender:)),
                                          keyEquivalent: "e")
     
-    weak var delegatee: MenuProtocol?
-    
-    init(target: MenuProtocol) {
-        
-        self.delegatee = target
+    init(menuDelegate: MenuDelegate) {
         super.init(title: "ImageAnnotations")
         
-        quit.target = target
         let mainMenuFileItem = NSMenuItem()
-        
         let mainMenu = NSMenu(title: "ImageAnnotations")
         mainMenu.addItem(quit)
         mainMenuFileItem.submenu = mainMenu
@@ -50,6 +44,10 @@ final class MainMenu: NSMenu {
         fileMenu.addItem(export)
         fileMenuItem.submenu = fileMenu
         addItem(fileMenuItem)
+        
+        quit.target = menuDelegate
+        selectImages.target = menuDelegate
+        export.target = menuDelegate
     }
     
     @available (*, unavailable)

@@ -31,6 +31,6 @@ final class ApplicationCoordinator: Coordinator {
         let controller = NSWindowController(window: window)
         controller.showWindow(window)
         NSApp.activate(ignoringOtherApps: true)
-        NSApp.mainMenu = MainMenu(target: mainViewCoordinator)
+        NSApp.mainMenu = MainMenu(menuDelegate: mainViewCoordinator)
     }
 }

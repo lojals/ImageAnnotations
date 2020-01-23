@@ -8,7 +8,7 @@
 
 import Cocoa
 
-final class MainViewController: NSSplitViewController {
+final class MainViewController: NSViewController {
     
     private lazy var documentsTableView = ImagesTableViewController()
     private lazy var imageDetailView = ImageDetailViewController()
@@ -18,9 +18,6 @@ final class MainViewController: NSSplitViewController {
     init(viewModel: ImageAnnotationsViewModelProtocol = ImageAnnotationViewModel()) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
-        
-        setupUI()
-        setupLayout()
     }
     
     @available (*, unavailable)
@@ -34,8 +31,23 @@ final class MainViewController: NSSplitViewController {
         
         documentsTableView.delegate = self
         documentsTableView.dataSource = self
-        imageDetailView.delegate = viewModel
+        imageDetailView.delegate = self
         viewModel.binder = self
+    }
+    
+    override func loadView() {
+        let splitView = NSSplitView()
+        splitView.addSubview(documentsTableView.view)
+        splitView.addSubview(imageDetailView.view)
+        splitView.isVertical = true
+        documentsTableView.view.widthAnchor.constraint(equalToConstant: 200).isActive = true
+        imageDetailView.view.widthAnchor.constraint(greaterThanOrEqualToConstant: 100).isActive = true
+        let identifier = String(describing: self)
+        splitView.dividerStyle = .thick
+        splitView.autosaveName = identifier
+        splitView.identifier = NSUserInterfaceItemIdentifier(rawValue: identifier)
+        splitView.adjustSubviews()
+        view = splitView
     }
 }
 
@@ -56,7 +68,7 @@ extension MainViewController: NSTableViewDataSource {
 extension MainViewController: NSTableViewDelegate {
     
     func tableView(_ tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
-        viewModel.selectedRow(at: row)
+        viewModel.current = viewModel.imageAnotation(for: row)
         return true
     }
     
@@ -68,60 +80,7 @@ extension MainViewController: ImageAnnotationsViewModelBinder {
         documentsTableView.bind(viewModel)
         imageDetailView.bind(viewModel)
     }
-    
-}
 
-extension MainViewController: MenuProtocol {
-    
-    func quit(sender: AnyObject) {
-        NSApp.terminate(self)
-    }
-    
-    func selectImages(sender: AnyObject) {
-        let dialog = NSOpenPanel.make()
-        dialog.identifier = .openPanel
-        dialog.delegate = self
-        dialog.runModal()
-    }
-    
-    func export(sender: AnyObject) {
-        let savePanel = NSOpenPanel()
-        savePanel.identifier = .savePanel
-        savePanel.canCreateDirectories = true
-        savePanel.canChooseFiles = false
-        savePanel.canChooseDirectories = true
-        savePanel.allowsMultipleSelection = false
-        savePanel.delegate = self
-        savePanel.titleVisibility  = .hidden
-        savePanel.runModal()
-    }
-
-}
-
-extension MainViewController {
-    
-    private func setupUI() {
-        view.wantsLayer = true
-        
-        let identifier = String(describing: self)
-        splitView.dividerStyle = .thick
-        splitView.autosaveName = identifier
-        splitView.identifier = NSUserInterfaceItemIdentifier(rawValue: identifier)
-        
-        documentsTableView.view.widthAnchor.constraint(greaterThanOrEqualToConstant: 200).isActive = true
-        imageDetailView.view.widthAnchor.constraint(greaterThanOrEqualToConstant: 100).isActive = true
-    }
-    
-    private func setupLayout() {
-        
-        let sidebarItem = NSSplitViewItem(viewController: documentsTableView)
-        sidebarItem.canCollapse = false
-        sidebarItem.holdingPriority = NSLayoutConstraint.Priority(NSLayoutConstraint.Priority.defaultLow.rawValue + 1)
-        addSplitViewItem(sidebarItem)
-        
-        let xibItem = NSSplitViewItem(viewController: imageDetailView)
-        addSplitViewItem(xibItem)
-    }
 }
 
 extension MainViewController: NSOpenSavePanelDelegate {
@@ -142,4 +101,12 @@ extension MainViewController: NSOpenSavePanelDelegate {
 extension NSUserInterfaceItemIdentifier {
     static let savePanel = NSUserInterfaceItemIdentifier(rawValue: "savePanel")
     static let openPanel = NSUserInterfaceItemIdentifier(rawValue: "openPanel")
+}
+
+
+extension MainViewController: ImageDetailViewDelegate {
+    
+    func willAddAnnotation(coordinate: Coordinate) {
+        
+    }
 }
