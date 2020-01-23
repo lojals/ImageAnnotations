@@ -17,7 +17,7 @@ final class AnnotationDataSet {
     init(urls: [URL] = []) {
         for (index, url) in urls.enumerated() {
             let image = ImageAnnotation(url: url)
-            map[image.imageName] = index
+            map[image.name] = index
             annotations.append(image)
         }
     }
@@ -33,7 +33,7 @@ final class AnnotationDataSet {
     func addAnnotation(annotation: Annotation, to image: ImageAnnotation) -> ImageAnnotation {
         var newVal = image
         newVal.annotations.append(annotation)
-        guard let index = map[image.imageName] else { return .default }
+        guard let index = map[image.name] else { return .default }
         annotations[index] = newVal
         return newVal
     }

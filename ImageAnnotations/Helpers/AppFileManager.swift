@@ -27,7 +27,7 @@ struct AppFileManager {
             
             for imageAnnotation in annotations {
                 guard let image = imageAnnotation.image else { return }
-                let imageURL = path.appendingPathComponent("\(directoryName)/\(imageAnnotation.imageName).jpg")
+                let imageURL = path.appendingPathComponent("\(directoryName)/\(imageAnnotation.name).jpg")
                 try writeimge(image, to: imageURL)
             }
         } catch (let error) {

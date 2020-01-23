@@ -45,7 +45,7 @@ extension MainSplitViewController: NSTableViewDataSource {
     
     func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
         let imageAnnotation = viewModel.imageAnotation(for: row)
-        let cell = NSCell(textCell: imageAnnotation.imageName)
+        let cell = NSCell(textCell: imageAnnotation.name)
         cell.isEditable = false
         return cell
     }
@@ -58,7 +58,7 @@ extension MainSplitViewController: NSTableViewDataSource {
 extension MainSplitViewController: NSTableViewDelegate {
     
     func tableView(_ tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
-        viewModel.current(index: row)
+        viewModel.selectedRow(at: row)
         return true
     }
     

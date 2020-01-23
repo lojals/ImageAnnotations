@@ -21,7 +21,7 @@ protocol ImageAnnotationsViewModelProtocol:  AnyObject, ImageDetailViewDelegate 
     
     func imageAnotation(for row: Int) -> ImageAnnotation
     func numberOfRows() -> Int
-    func current(index: Int)
+    func selectedRow(at index: Int)
 }
 
 final class ImageAnnotationViewModel: NSObject, ImageAnnotationsViewModelProtocol {
@@ -53,7 +53,7 @@ final class ImageAnnotationViewModel: NSObject, ImageAnnotationsViewModelProtoco
         appFileManager.export(annotations: dataSet.annotations, path: path)
     }
     
-    func current(index: Int) {
+    func selectedRow(at index: Int) {
         current = dataSet[index]
     }
 }

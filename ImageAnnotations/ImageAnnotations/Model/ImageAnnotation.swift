@@ -10,7 +10,7 @@ import Cocoa
 
 struct ImageAnnotation {
     
-    var imageName: String {
+    var name: String {
         let imageName = url?.deletingPathExtension()
         return imageName?.lastPathComponent ?? ""
     }
@@ -47,8 +47,8 @@ extension ImageAnnotation: Encodable {
     
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        let imageNamePlusExtension = "\(imageName).jpg"
-        try container.encode(imageNamePlusExtension, forKey: .image)
+        let imageNameWithExtension = "\(name).jpg"
+        try container.encode(imageNameWithExtension, forKey: .image)
         try container.encode(translate(), forKey: .annotations)
     }
     
