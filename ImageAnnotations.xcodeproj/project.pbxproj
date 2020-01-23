@@ -20,6 +20,8 @@
 		7ADB116A23D8D30900C81595 /* NSRectExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ADB116923D8D30900C81595 /* NSRectExtensionTests.swift */; };
 		7ADB116C23D8D67000C81595 /* NSRect+Comparable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ADB116B23D8D67000C81595 /* NSRect+Comparable.swift */; };
 		7ADB116E23D8FB7200C81595 /* AnnotationDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ADB116D23D8FB7200C81595 /* AnnotationDataSet.swift */; };
+		7ADB117023D904C100C81595 /* Annotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ADB116F23D904C100C81595 /* Annotation.swift */; };
+		7ADB117223D904DF00C81595 /* Coordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ADB117123D904DF00C81595 /* Coordinate.swift */; };
 		7AE1AB1223C799F10088B08F /* ImageDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AE1AB1123C799F10088B08F /* ImageDetailView.swift */; };
 		7AE1AB1423C8FD5F0088B08F /* AnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AE1AB1323C8FD5F0088B08F /* AnnotationView.swift */; };
 		7AE1AB1723C91F420088B08F /* ImageAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AE1AB1623C91F420088B08F /* ImageAnnotation.swift */; };
@@ -55,6 +57,8 @@
 		7ADB116923D8D30900C81595 /* NSRectExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSRectExtensionTests.swift; sourceTree = "<group>"; };
 		7ADB116B23D8D67000C81595 /* NSRect+Comparable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSRect+Comparable.swift"; sourceTree = "<group>"; };
 		7ADB116D23D8FB7200C81595 /* AnnotationDataSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotationDataSet.swift; sourceTree = "<group>"; };
+		7ADB116F23D904C100C81595 /* Annotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Annotation.swift; sourceTree = "<group>"; };
+		7ADB117123D904DF00C81595 /* Coordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinate.swift; sourceTree = "<group>"; };
 		7AE1AB1123C799F10088B08F /* ImageDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDetailView.swift; sourceTree = "<group>"; };
 		7AE1AB1323C8FD5F0088B08F /* AnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotationView.swift; sourceTree = "<group>"; };
 		7AE1AB1623C91F420088B08F /* ImageAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAnnotation.swift; sourceTree = "<group>"; };
@@ -125,6 +129,7 @@
 		7A4BBE0423C545460037C111 /* ImageAnnotations */ = {
 			isa = PBXGroup;
 			children = (
+				7ADB115223D252E600C81595 /* MainViewController.swift */,
 				7ADB115423D673E000C81595 /* ImageDetailViewController.swift */,
 				7A4BBDF323C3A3FE0037C111 /* ImagesTableViewController.swift */,
 				7AE1AB1823CE382D0088B08F /* ImageAnnotationViewModel.swift */,
@@ -132,7 +137,6 @@
 				7AE1AB1123C799F10088B08F /* ImageDetailView.swift */,
 				7AE1AB1323C8FD5F0088B08F /* AnnotationView.swift */,
 				7ADB115023D2347A00C81595 /* MainMenu.swift */,
-				7ADB115223D252E600C81595 /* MainViewController.swift */,
 				7ADB116D23D8FB7200C81595 /* AnnotationDataSet.swift */,
 			);
 			path = ImageAnnotations;
@@ -159,6 +163,8 @@
 			isa = PBXGroup;
 			children = (
 				7AE1AB1623C91F420088B08F /* ImageAnnotation.swift */,
+				7ADB116F23D904C100C81595 /* Annotation.swift */,
+				7ADB117123D904DF00C81595 /* Coordinate.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -264,7 +270,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				7A4BBE0323C3E3DB0037C111 /* NSOpenPanel+Custom.swift in Sources */,
+				7ADB117023D904C100C81595 /* Annotation.swift in Sources */,
 				7ADB116C23D8D67000C81595 /* NSRect+Comparable.swift in Sources */,
+				7ADB117223D904DF00C81595 /* Coordinate.swift in Sources */,
 				7ADB115123D2347A00C81595 /* MainMenu.swift in Sources */,
 				7AE1AB1423C8FD5F0088B08F /* AnnotationView.swift in Sources */,
 				7AE1AB1923CE382D0088B08F /* ImageAnnotationViewModel.swift in Sources */,

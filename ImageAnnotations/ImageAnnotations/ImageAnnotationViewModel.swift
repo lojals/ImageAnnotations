@@ -6,19 +6,26 @@
 //  Copyright © 2020 Jorge Ovalle. All rights reserved.
 //
 
-import Cocoa
+import Foundation
 
 protocol ImageAnnotationsViewModelBinder {
     func bind(_ viewModel: ImageAnnotationsViewModelProtocol)
 }
 
-protocol ImageAnnotationsViewModelProtocol: NSTableViewDataSource, NSTableViewDelegate {
+protocol ImageAnnotationsViewModelProtocol:  AnyObject, ImageDetailViewDelegate {
+    var binder: ImageAnnotationsViewModelBinder? { get set }
     var dataSet: AnnotationDataSet { get set }
     var current: ImageAnnotation { get set }
+    
+    func export(path: URL)
+    
+    func imageAnotation(for row: Int) -> ImageAnnotation
+    func numberOfRows() -> Int
+    func current(index: Int)
 }
 
 final class ImageAnnotationViewModel: NSObject, ImageAnnotationsViewModelProtocol {
-    
+   
     var binder: ImageAnnotationsViewModelBinder?
     
     var current: ImageAnnotation = .default {
@@ -33,31 +40,27 @@ final class ImageAnnotationViewModel: NSObject, ImageAnnotationsViewModelProtoco
         }
     }
     
-    func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
-        let cell = NSCell(textCell: dataSet[row].imageName)
-        cell.isEditable = false
-        return cell
-    }
-     
-    func numberOfRows(in tableView: NSTableView) -> Int {
+    func numberOfRows() -> Int {
         return dataSet.count
     }
-    
-    func tableView(_ tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
-        current = dataSet[row]
-        return true
+     
+    func imageAnotation(for row: Int) -> ImageAnnotation {
+        return dataSet[row]
     }
     
     func export(path: URL) {
-//        let appFileManager = AppFileManager()
-//        let imageAnnotations = annotations.values.map { $0 }
-//        appFileManager.export(annotations: imageAnnotations, urls: urls, path: path)
+        let appFileManager = AppFileManager()
+        appFileManager.export(annotations: dataSet.annotations, path: path)
+    }
+    
+    func current(index: Int) {
+        current = dataSet[index]
     }
 }
 
 extension ImageAnnotationViewModel: ImageDetailViewDelegate {
     
-    func addedAnnotation(name: String, coordinate: Coordinate, relativeSize: NSSize) {
+    func addedAnnotation(name: String, coordinate: Coordinate) {
         let annotation = Annotation(label: name, coordinate: coordinate)
         current = dataSet.addAnnotation(annotation: annotation, to: current)
     }

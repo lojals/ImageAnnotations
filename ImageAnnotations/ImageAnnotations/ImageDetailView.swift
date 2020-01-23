@@ -9,17 +9,17 @@
 import Cocoa
 
 protocol ImageDetailViewDelegate {
-    func addedAnnotation(name: String, coordinate: Coordinate, relativeSize: NSSize)
+    func addedAnnotation(name: String, coordinate: Coordinate)
 }
 
 final class ImageDetailView: NSImageView {
     
     var delegate: ImageDetailViewDelegate?
     
-    var iPoint: CGPoint = .zero
-    var ePoint: CGPoint = .zero
+    private var iPoint: CGPoint = .zero
+    private var ePoint: CGPoint = .zero
     
-    var annotation: AnnotationView?
+    private var annotation: AnnotationView?
     
     override func mouseDown(with event: NSEvent) {
         super.mouseDown(with: event)
@@ -49,8 +49,7 @@ final class ImageDetailView: NSImageView {
             switch modalResponse {
             case .alertFirstButtonReturn:
                 self.delegate?.addedAnnotation(name: (alert.accessoryView as? NSTextField)?.stringValue ?? "",
-                                               coordinate: Coordinate(rect: annotation.frame),
-                                               relativeSize: self.image!.size)
+                                               coordinate: Coordinate(rect: annotation.frame))
             
             case .alertSecondButtonReturn:
                 annotation.removeFromSuperview()

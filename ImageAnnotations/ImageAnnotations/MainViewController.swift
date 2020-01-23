@@ -12,29 +12,54 @@ final class MainSplitViewController: NSSplitViewController {
     
     private let splitViewResorationIdentifier = "com.company.restorationId:mainSplitViewController"
     
-    lazy var documentsTableView = ImagesTableViewController()
-    lazy var imageDetailView = ImageDetailViewController()
+    private lazy var documentsTableView = ImagesTableViewController()
+    private lazy var imageDetailView = ImageDetailViewController()
     
-    let viewModel = ImageAnnotationViewModel()
+    let viewModel: ImageAnnotationsViewModelProtocol
     
-    override init(nibName nibNameOrNil: NSNib.Name?, bundle nibBundleOrNil: Bundle?) {
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+    init(viewModel: ImageAnnotationsViewModelProtocol = ImageAnnotationViewModel()) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+        
         setupUI()
         setupLayout()
     }
     
     @available (*, unavailable)
     required init?(coder: NSCoder) {
+        viewModel = ImageAnnotationViewModel()
         super.init(coder: coder)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        documentsTableView.delegate = viewModel
-        documentsTableView.dataSource = viewModel
-        viewModel.binder = self
+        documentsTableView.delegate = self
+        documentsTableView.dataSource = self
         imageDetailView.delegate = viewModel
+        viewModel.binder = self
+    }
+}
+
+extension MainSplitViewController: NSTableViewDataSource {
+    
+    func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
+        let imageAnnotation = viewModel.imageAnotation(for: row)
+        let cell = NSCell(textCell: imageAnnotation.imageName)
+        cell.isEditable = false
+        return cell
+    }
+    
+    func numberOfRows(in tableView: NSTableView) -> Int {
+        return viewModel.numberOfRows()
+    }
+}
+
+extension MainSplitViewController: NSTableViewDelegate {
+    
+    func tableView(_ tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
+        viewModel.current(index: row)
+        return true
     }
     
 }

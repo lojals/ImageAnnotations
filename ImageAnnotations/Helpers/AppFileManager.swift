@@ -10,7 +10,7 @@ import Cocoa
 
 struct AppFileManager {
 
-    func export(annotations: [ImageAnnotation], urls: [URL], path: URL) {
+    func export(annotations: [ImageAnnotation], path: URL) {
         let manager = FileManager.default
         
         let directoryName = "Input Data"
@@ -25,11 +25,9 @@ struct AppFileManager {
             
             try? encoder.encode(annotations).write(to: fileURL)
             
-            for imageURL in urls {
-                guard let data = try? Data(contentsOf: imageURL),
-                let image = NSImage(data: data) else { return }
-                let pathExp = imageURL.deletingPathExtension()
-                let imageURL = path.appendingPathComponent("\(directoryName)/\(pathExp.lastPathComponent).jpg")
+            for imageAnnotation in annotations {
+                guard let image = imageAnnotation.image else { return }
+                let imageURL = path.appendingPathComponent("\(directoryName)/\(imageAnnotation.imageName).jpg")
                 try writeimge(image, to: imageURL)
             }
         } catch (let error) {

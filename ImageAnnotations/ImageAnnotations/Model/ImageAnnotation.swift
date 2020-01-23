@@ -8,15 +8,16 @@
 
 import Cocoa
 
-struct ImageAnnotation: Encodable {
+struct ImageAnnotation {
     
     var imageName: String {
-        url?.lastPathComponent ?? ""
+        let imageName = url?.deletingPathExtension()
+        return imageName?.lastPathComponent ?? ""
     }
     
     var annotations: [Annotation]
     
-    var url: URL?
+    private var url: URL?
     
     var image: NSImage? {
         guard let currentURL = url,
@@ -30,49 +31,29 @@ struct ImageAnnotation: Encodable {
         self.url = url
     }
     
-    static let `default` = ImageAnnotation()
+    // TODO: translate position of the annotation to the needed coordinate type.
+    func translate() -> [Annotation] {
+        return annotations
+    }
+
 }
 
-struct Annotation: Encodable {
-    let label: String
-    let coordinate: Coordinate
-    var relativeCoordinate: Coordinate = .zero
+extension ImageAnnotation: Encodable {
     
     private enum CodingKeys: String, CodingKey {
-        case label
-        case coordinate
+        case image
+        case annotations
     }
     
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(label, forKey: .label)
-        try container.encode(relativeCoordinate, forKey: .coordinate)
+        let imageNamePlusExtension = "\(imageName).jpg"
+        try container.encode(imageNamePlusExtension, forKey: .image)
+        try container.encode(translate(), forKey: .annotations)
     }
+    
 }
 
-struct Coordinate: Encodable {
-    let x: CGFloat
-    let y: CGFloat
-    let width: CGFloat
-    let height: CGFloat
-    
-    var rect: NSRect {
-        return CGRect(x: x, y: y, width: width, height: height)
-    }
-    
-    init(rect: NSRect) {
-        self.x = rect.origin.x
-        self.y = rect.origin.y
-        self.width = rect.width
-        self.height = rect.height
-    }
-    
-    init(x: CGFloat, y: CGFloat, width: CGFloat, height: CGFloat) {
-        self.x = x
-        self.y = y
-        self.width = width
-        self.height = height
-    }
-    
-    static let zero = Coordinate(x: 0, y: 0, width: 0, height: 0)
+extension ImageAnnotation {
+    static let `default` = ImageAnnotation()
 }

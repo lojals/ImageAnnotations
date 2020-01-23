@@ -12,12 +12,12 @@ final class AnnotationDataSet {
     static let empty = AnnotationDataSet()
     
     private var map: [String: Int] = [:]
-    private var annotations: [ImageAnnotation] = []
+    private (set) var annotations: [ImageAnnotation] = []
     
     init(urls: [URL] = []) {
         for (index, url) in urls.enumerated() {
             let image = ImageAnnotation(url: url)
-            map[url.lastPathComponent] = index
+            map[image.imageName] = index
             annotations.append(image)
         }
     }
