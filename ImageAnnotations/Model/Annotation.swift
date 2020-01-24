@@ -11,16 +11,4 @@ import Foundation
 struct Annotation: Encodable {
     let label: String
     let coordinate: Coordinate
-    var relativeCoordinate: Coordinate = .zero
-    
-    private enum CodingKeys: String, CodingKey {
-        case label
-        case coordinate
-    }
-    
-    func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(label, forKey: .label)
-        try container.encode(relativeCoordinate, forKey: .coordinate)
-    }
 }

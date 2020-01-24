@@ -31,11 +31,17 @@ struct ImageAnnotation {
         self.url = url
     }
     
-    // TODO: translate position of the annotation to the needed coordinate type.
     func translate() -> [Annotation] {
+        guard let imageSize = image?.size else { return [] }
         var translatedAnnotations: [Annotation] = []
         for annotation in annotations {
-            translatedAnnotations.append(annotation)
+            let originalCoordinate = annotation.coordinate
+            let newCoordinate = Coordinate(x: originalCoordinate.x,
+                                           y: imageSize.height-originalCoordinate.y-originalCoordinate.height,
+                                           width: originalCoordinate.width,
+                                           height: originalCoordinate.height)
+            let transformedAnnotation = Annotation(label: annotation.label, coordinate: newCoordinate)
+            translatedAnnotations.append(transformedAnnotation)
         }
         return translatedAnnotations
     }
